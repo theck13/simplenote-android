@@ -260,8 +260,9 @@ platform :android do
       repository: GITHUB_REPO,
       version: version,
       release_notes_file_path: RELEASE_NOTES_PATH,
-      prerelease: beta,
-      release_assets: apk_path
+      release_assets: apk_path,
+      prerelease: beta, # Beta = prerelease, Final = normal Release
+      is_draft: !beta # Beta = publish immediately, Final = Draft (only publish after Google approval)
     )
   end
 end
