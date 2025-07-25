@@ -20,7 +20,7 @@ class OkHttpMagicLinkRepository @Inject constructor(private val simpleHttp: Simp
             "account/complete-login",
             mapOf(Pair("username", username), Pair("auth_code", authCode))
         ).use { response ->
-            val body = response.body()?.string()
+            val body = response.body?.string()
             if (response.isSuccessful) {
                 val json = JSONObject(body ?: "")
                 val syncToken = json.getString("sync_token")
@@ -33,7 +33,7 @@ class OkHttpMagicLinkRepository @Inject constructor(private val simpleHttp: Simp
                 MagicLinkAuthError.REQUEST_NOT_FOUND -> R.string.magic_link_complete_login_expired_code_error_message
                 MagicLinkAuthError.UNKNOWN_ERROR -> R.string.magic_link_general_error
             }
-            return MagicLinkResponseResult.MagicLinkError(response.code(), authError, errorStringRes)
+            return MagicLinkResponseResult.MagicLinkError(response.code, authError, errorStringRes)
         }
     }
 
@@ -63,9 +63,9 @@ class OkHttpMagicLinkRepository @Inject constructor(private val simpleHttp: Simp
             mapOf(Pair("username", username), Pair("request_source", "android"))
         ).use { response ->
             if (response.isSuccessful) {
-                return MagicLinkResponseResult.MagicLinkRequestSuccess(response.code())
+                return MagicLinkResponseResult.MagicLinkRequestSuccess(response.code)
             } else {
-                return MagicLinkResponseResult.MagicLinkError(response.code())
+                return MagicLinkResponseResult.MagicLinkError(response.code)
             }
         }
     }
