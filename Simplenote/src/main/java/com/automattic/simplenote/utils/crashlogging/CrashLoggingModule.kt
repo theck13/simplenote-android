@@ -1,6 +1,6 @@
 package com.automattic.simplenote.utils.crashlogging
 
-import android.content.Context
+import android.app.Application
 import com.automattic.android.tracks.crashlogging.CrashLogging
 import com.automattic.android.tracks.crashlogging.CrashLoggingDataProvider
 import com.automattic.android.tracks.crashlogging.CrashLoggingProvider
@@ -10,8 +10,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -20,8 +21,15 @@ abstract class CrashLoggingModule {
     companion object {
         @Provides
         @Singleton
-        fun provideCrashLogging(@ApplicationContext context: Context, crashLoggingDataProvider: CrashLoggingDataProvider): CrashLogging {
-            return CrashLoggingProvider.createInstance(context, crashLoggingDataProvider)
+        fun provideCrashLogging(
+            application: Application,
+            crashLoggingDataProvider: CrashLoggingDataProvider
+        ): CrashLogging {
+            return CrashLoggingProvider.createInstance(
+                application,
+                crashLoggingDataProvider,
+                CoroutineScope(Dispatchers.Default)
+            )
         }
     }
 

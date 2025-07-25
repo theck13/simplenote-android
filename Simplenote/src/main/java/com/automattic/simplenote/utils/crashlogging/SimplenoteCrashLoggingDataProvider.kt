@@ -4,14 +4,20 @@ import com.automattic.android.tracks.crashlogging.CrashLoggingDataProvider
 import com.automattic.android.tracks.crashlogging.CrashLoggingUser
 import com.automattic.android.tracks.crashlogging.EventLevel
 import com.automattic.android.tracks.crashlogging.ExtraKnownKey
+import com.automattic.android.tracks.crashlogging.PerformanceMonitoringConfig
+import com.automattic.android.tracks.crashlogging.ReleaseName
 import com.automattic.simplenote.BuildConfig
 import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.utils.locale.LocaleProvider
+import com.simperium.client.User
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import java.util.Locale
 import javax.inject.Inject
 
 class SimplenoteCrashLoggingDataProvider @Inject constructor(
-    private val app: Simplenote,
+    app: Simplenote,
     private val localeProvider: LocaleProvider,
 ) : CrashLoggingDataProvider {
 
@@ -22,15 +28,18 @@ class SimplenoteCrashLoggingDataProvider @Inject constructor(
     override val locale: Locale?
         get() = localeProvider.provideLocale()
 
-    override val releaseName = if (BuildConfig.DEBUG) {
-        DEBUG_RELEASE_NAME
+    override val releaseName: ReleaseName = if (BuildConfig.DEBUG) {
+        ReleaseName.SetByApplication(DEBUG_RELEASE_NAME)
     } else {
-        BuildConfig.VERSION_NAME
+        ReleaseName.SetByApplication(BuildConfig.VERSION_NAME)
     }
 
-    override fun applicationContextProvider(): Map<String, String> {
-        return emptyMap()
-    }
+    override val user: Flow<CrashLoggingUser?> = MutableStateFlow(app.simperium?.user?.toCrashLoggingUser())
+
+    override val applicationContextProvider: Flow<Map<String, String>> = emptyFlow()
+
+    override val performanceMonitoringConfig: PerformanceMonitoringConfig
+        get() = PerformanceMonitoringConfig.Disabled
 
     override fun crashLoggingEnabled(): Boolean {
         return Simplenote.analyticsIsEnabled()
@@ -51,10 +60,12 @@ class SimplenoteCrashLoggingDataProvider @Inject constructor(
         return false
     }
 
-    override fun userProvider(): CrashLoggingUser {
+    private fun User.toCrashLoggingUser(): CrashLoggingUser? {
+        if (userId.isNullOrEmpty()) return null
+
         return CrashLoggingUser(
-            userID = app.simperium.user.userId.orEmpty(),
-            email = app.simperium.user.email.orEmpty(),
+            userID = userId,
+            email = email.orEmpty(),
             username = ""
         )
     }

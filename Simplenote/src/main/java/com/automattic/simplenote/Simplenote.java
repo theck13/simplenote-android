@@ -99,6 +99,7 @@ public class Simplenote extends Application implements HeartbeatListener {
 
     public void onCreate() {
         super.onCreate();
+        crashLogging.initialize();
 
         SimplenoteAppLock appLock = new SimplenoteAppLock(this);
         AppLockManager.getInstance().setCurrentAppLock(appLock);
