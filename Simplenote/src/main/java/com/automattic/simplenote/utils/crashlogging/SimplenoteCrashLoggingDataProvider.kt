@@ -31,7 +31,7 @@ class SimplenoteCrashLoggingDataProvider @Inject constructor(
     override val releaseName: ReleaseName = if (BuildConfig.DEBUG) {
         ReleaseName.SetByApplication(DEBUG_RELEASE_NAME)
     } else {
-        ReleaseName.SetByApplication(BuildConfig.VERSION_NAME)
+        ReleaseName.SetByTracksLibrary
     }
 
     override val user: Flow<CrashLoggingUser?> = MutableStateFlow(app.simperium?.user?.toCrashLoggingUser())
