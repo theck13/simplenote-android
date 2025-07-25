@@ -66,4 +66,5 @@ def gitVersion() {
 
 ext {
     automatticTracksVersion = '6.0.4'
+    androidxLifecycleVersion = '2.5.1'
 }
