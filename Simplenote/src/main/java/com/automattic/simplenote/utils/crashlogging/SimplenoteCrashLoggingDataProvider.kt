@@ -22,7 +22,7 @@ class SimplenoteCrashLoggingDataProvider @Inject constructor(
 ) : CrashLoggingDataProvider {
 
     override val buildType = BuildConfig.BUILD_TYPE
-    override val enableCrashLoggingLogs = BuildConfig.DEBUG
+    override val enableCrashLoggingLogs = false
     override val sentryDSN: String = BuildConfig.SENTRY_DSN
 
     override val locale: Locale?
