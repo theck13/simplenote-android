@@ -1,7 +1,7 @@
 package com.automattic.simplenote.networking
 
 import okhttp3.HttpUrl
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -13,7 +13,7 @@ import javax.inject.Inject
 private const val HTTP_SCHEME = "https"
 private const val BASE_URL = "app.simplenote.com"
 open class SimpleHttp @Inject constructor(val client: OkHttpClient) {
-    private val jsonMediaType = MediaType.parse("application/json; charset=utf-8")
+    private val jsonMediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
 
     private fun buildUrl(path: String): HttpUrl = HttpUrl.Builder()
         .scheme(HTTP_SCHEME)
