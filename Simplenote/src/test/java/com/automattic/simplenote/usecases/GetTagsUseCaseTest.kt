@@ -1,19 +1,18 @@
 package com.automattic.simplenote.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.automattic.simplenote.CoroutineTestRule
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
-import com.automattic.simplenote.repositories.CollaboratorsRepository
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.simperium.client.Bucket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -23,11 +22,17 @@ import org.mockito.kotlin.stub
 
 @ExperimentalCoroutinesApi
 class GetTagsUseCaseTest {
-    @get:Rule val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutinesTestRule = CoroutineTestRule(UnconfinedTestDispatcher())
 
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
     private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(
+        notesBucket,
+        coroutinesTestRule.testDispatcher
+    )
     private val getTagsUseCase: GetTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
     private val tagItems = listOf(
         TagItem(Tag("tag1"), 0),
@@ -46,7 +51,7 @@ class GetTagsUseCaseTest {
     }
 
     @Test
-    fun allTagsShouldFilterCollaborators() = runBlockingTest {
+    fun allTagsShouldFilterCollaborators() = runTest {
         tagsRepository.stub { onBlocking { allTags() }.doReturn(tagItems) }
 
 
@@ -59,7 +64,7 @@ class GetTagsUseCaseTest {
     }
 
     @Test
-    fun searchTagsShouldFilterCollaborators() = runBlockingTest {
+    fun searchTagsShouldFilterCollaborators() = runTest {
         val searchTagItems = listOf(
             TagItem(Tag("tag1"), 0),
             TagItem(Tag("tag2"), 2),
