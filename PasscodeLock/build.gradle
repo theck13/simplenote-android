@@ -12,7 +12,7 @@ plugins {
 
 android {
     namespace 'org.wordpress.passcodelock'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         minSdk 23
@@ -34,8 +34,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.preference:preference:1.2.1'
 }
 
 android.buildTypes.all { buildType ->
