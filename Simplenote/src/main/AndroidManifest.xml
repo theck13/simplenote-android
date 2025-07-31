@@ -41,12 +41,13 @@
         </activity>
 
         <activity
-            android:name=".NotesActivity"
+            android:name="com.automattic.simplenote.NotesActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:label="@string/app_launcher_name"
             android:resizeableActivity="true"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:theme="@style/Theme.Simplestyle">
 
             <intent-filter>
 
@@ -180,11 +181,11 @@
         <activity
             android:name="com.automattic.simplenote.StyleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName=".PreferencesActivity"></activity>
+            android:parentActivityName=".PreferencesActivity" />
 
         <activity
             android:name="com.automattic.simplenote.TagsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <activity
             android:name="com.automattic.simplenote.DeepLinkActivity"

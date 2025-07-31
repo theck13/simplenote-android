@@ -399,7 +399,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
         mList = view.findViewById(android.R.id.list);
 
-        mNotesAdapter = new NotesCursorAdapter(requireActivity().getBaseContext(), null, 0);
+        mNotesAdapter = new NotesCursorAdapter(requireContext(), null, 0);
         setListAdapter(mNotesAdapter);
 
         getListView().setOnItemLongClickListener(this);
@@ -935,7 +935,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             final NoteViewHolder holder;
 
             if (view == null) {
-                view = View.inflate(requireActivity().getBaseContext(), R.layout.note_list_row, null);
+                view = View.inflate(requireContext(), R.layout.note_list_row, null);
                 holder = new NoteViewHolder();
                 holder.mTitle = view.findViewById(R.id.note_title);
                 holder.mContent = view.findViewById(R.id.note_content);
