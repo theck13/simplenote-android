@@ -144,16 +144,26 @@ class CollaboratorsViewModelTest {
 
     @Test
     fun collaboratorAddedAfterStoppedListeningChangesShouldNotUpdateUiState() = runTest {
+        // Load collaborators and capture initial state
         viewModel.loadCollaborators(noteId)
+        val initialState = viewModel.uiState.value
+
+        // Mock the flow to not emit anything initially
+        whenever(mockCollaboratorsRepository.collaboratorsChanged(noteId)).thenReturn(flow { /* no emission */ })
+
+        // Start and then stop listening to changes
         viewModel.startListeningChanges()
         viewModel.stopListeningChanges()
 
+        // Now mock the flow to emit changes and mock getCollaborators to return a different list
+        // This simulates collaborators being added after we stopped listening
         whenever(mockCollaboratorsRepository.collaboratorsChanged(noteId)).thenReturn(flow { emit(true) })
-        val expectedList = listOf("test@emil.com", "name@example.co.jp")
+        val newList = listOf("test@emil.com", "name@example.co.jp", "new@email.com")
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
-            .thenReturn(CollaboratorsActionResult.CollaboratorsList(expectedList))
+            .thenReturn(CollaboratorsActionResult.CollaboratorsList(newList))
 
-        assertEquals(UiState.CollaboratorsList(expectedList), viewModel.uiState.value)
+        // Since we stopped listening, the UI state should remain the same as the initial state
+        assertEquals(initialState, viewModel.uiState.value)
     }
 
     @Test
