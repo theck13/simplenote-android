@@ -73,6 +73,13 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
             return false;
         }
 
+		// solves a crash after updating dependencies in which this method
+	    // gets called in super() instantiation before the mTokenizer variable
+	    // is instantiated
+		if (mTokenizer == null) {
+			return false;
+		}
+
         int start = mTokenizer.findTokenStart(text, end);
         return start > 0 && end - start >= 1;
     }
