@@ -25,6 +25,7 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     protected InputFilter[] filters = null;
     protected TextView topMessage = null;
 
+	@SuppressLint("RestrictedApi")
     protected FingerprintManagerCompat mFingerprintManager;
     protected CancellationSignal mCancel;
 
@@ -162,6 +163,7 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     }
 
     protected abstract void onPinLockInserted();
+	@SuppressLint("RestrictedApi")
     protected abstract FingerprintManagerCompat.AuthenticationCallback getFingerprintCallback();
 
     private InputFilter onlyNumber = new InputFilter() {

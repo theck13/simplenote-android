@@ -46,9 +46,6 @@ android {
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-    }
 
     testOptions {
         unitTests.returnDefaultValues = true
@@ -59,15 +56,18 @@ android {
 
     // Target Java8 to avoid use certain Kotlin's features
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     viewBinding {
         enabled = true
+    }
+    lint {
+        checkReleaseBuilds false
     }
 }
 
@@ -83,16 +83,16 @@ buildscript {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:4.0.0'
-    testImplementation 'org.mockito:mockito-inline:4.0.0'
-    androidTestImplementation 'androidx.test:core:1.3.0'
-    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.1.0') {
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:5.18.0'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
+    androidTestImplementation 'androidx.test:core:1.7.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.9.1'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test:rules:1.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.7.0'
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.7.0') {
         // Necessary to avoid version conflicts
         exclude group: 'androidx', module: 'appcompat'
         exclude group: 'androidx', module: 'support-v4'
@@ -100,9 +100,9 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     // Infrastructure to test fragments
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
-    testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:6.0.0"
 
 
     // Support for JsonObjects in unit tests since they are used by BucketObjects
@@ -124,7 +124,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'androidx.work:work-runtime:2.10.2'
+    implementation 'androidx.work:work-runtime:2.10.3'
     implementation 'androidx.concurrent:concurrent-futures:1.3.0'
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
     implementation "androidx.multidex:multidex:2.0.1"
