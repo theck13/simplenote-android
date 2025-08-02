@@ -86,7 +86,7 @@
 
                 <data
                     android:host="app.simplenote.com"
-                    android:pathPattern="/account/.*/reset?redirect=simplenote://launch"
+                    android:pathPattern="/account/.*/reset"
                     android:scheme="https">
                 </data>
 
@@ -122,7 +122,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
                     android:host="app.simplenote.com"
-                    android:pathPattern="/account/.*/reset?redirect=simplenote://launch"
+                    android:pathPattern="/account/.*/reset"
                     android:scheme="https">
                 </data>
             </intent-filter>

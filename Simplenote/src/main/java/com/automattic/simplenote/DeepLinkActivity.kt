@@ -27,8 +27,13 @@ class DeepLinkActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             VERIFIED_WEB_SCHEME -> {
-                // New MagicLink
-                startMagicLinkConfirmation(uri)
+                // Check if this is a password reset URL
+                if (uri.path?.contains("/account/") == true && uri.path?.contains("/reset") == true) {
+                    handlePasswordReset(uri)
+                } else {
+                    // New MagicLink
+                    startMagicLinkConfirmation(uri)
+                }
             }
             LOGIN_SCHEME -> {
                 if (queryParamContainsData(uri.query, USERNAME_KEY_QUERY) && queryParamContainsData(uri.query, AUTH_CODE_QUERY)) {
@@ -85,6 +90,21 @@ class DeepLinkActivity : AppCompatActivity() {
             ).show()
 
             SimplenoteAuthenticationActivity.startNotesActivity(applicationContext, false);
+        }
+    }
+
+    private fun handlePasswordReset(uri: Uri) {
+        val redirectParam = uri.getQueryParameter("redirect")
+        if (redirectParam == "simplenote://launch") {
+            // Handle the redirect to launch the app
+            val intent = IntentUtils.maybeAliasedIntent(applicationContext)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        } else {
+            // Default behavior for reset URLs without redirect
+            val intent = IntentUtils.maybeAliasedIntent(applicationContext)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
     }
 
