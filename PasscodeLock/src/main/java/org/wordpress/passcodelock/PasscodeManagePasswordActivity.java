@@ -1,5 +1,6 @@
 package org.wordpress.passcodelock;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,7 +24,8 @@ public class PasscodeManagePasswordActivity extends AbstractPasscodeKeyboardActi
         }
     }
 
-    @Override
+	@SuppressLint("RestrictedApi")
+	@Override
     public void onResume() {
         super.onResume();
 
@@ -73,13 +75,14 @@ public class PasscodeManagePasswordActivity extends AbstractPasscodeKeyboardActi
                     type = PasscodePreferenceFragment.ENABLE_PASSLOCK;
                 } else {
                     authenticationFailed();
-                } 
+                }
                 break;
             default:
                 break;
         }
     }
 
+	@SuppressLint("RestrictedApi")
     @Override
     protected FingerprintManagerCompat.AuthenticationCallback getFingerprintCallback() {
         return new FingerprintManagerCompat.AuthenticationCallback() {
