@@ -249,6 +249,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             startActivity(intent);
 
             finish();
+        } else {
+	        getOnBackPressedDispatcher().onBackPressed();
         }
     }
 
