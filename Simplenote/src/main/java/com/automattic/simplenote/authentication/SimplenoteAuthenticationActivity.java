@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -11,6 +12,7 @@ import android.view.ContextThemeWrapper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.view.WindowCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +22,7 @@ import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.IntentUtils;
 import com.automattic.simplenote.utils.StrUtils;
+import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
 import com.automattic.simplenote.viewmodels.MagicLinkUiState;
 import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel;
@@ -59,6 +62,13 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Setup edge-to-edge display only on Android 15+ to avoid breaking existing theming
+        // Since this extends Simperium's AuthenticationActivity, we need to be conservative
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+            SystemBarUtils.setSystemBarsAppearance(this, true, true); // Dark icons on light background
+        }
 
         final Intent intent = getIntent();
         

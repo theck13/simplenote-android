@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.automattic.simplenote.utils.DrawableUtils;
+import com.automattic.simplenote.utils.SystemBarUtils;
 
 public class AboutActivity extends AppCompatActivity {
     @Override
@@ -24,6 +25,17 @@ public class AboutActivity extends AppCompatActivity {
                 this, R.drawable.ic_cross_24dp, android.R.color.white
             ));
         }
+        
+        // Setup edge-to-edge display with proper WindowInsets handling
+        // AboutActivity has a dark theme with blue background, so use appropriate appearance
+        SystemBarUtils.setupEdgeToEdgeWithToolbar(
+            this,
+            findViewById(R.id.main_parent_view),
+            toolbar,
+            findViewById(R.id.about_fragment),
+            false, // Dark status bar icons for blue background
+            false  // Dark navigation bar icons for blue background
+        );
     }
 
     @Override

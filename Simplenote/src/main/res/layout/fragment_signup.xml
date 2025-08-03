@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/width_layout"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
     android:clipToPadding="false"
     android:padding="@dimen/margin_default"
     tools:layout_width="match_parent">
@@ -16,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="@dimen/margin_default_quarter"
-        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_default_quarter"
         android:layout_marginEnd="@dimen/margin_default_quarter"
         android:layout_marginBottom="@dimen/margin_default_quarter"
         android:hint="@string/simperium_hint_email"

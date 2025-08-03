@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.authentication.magiclink.MagicLinkConfirmationFragment;
+import com.automattic.simplenote.utils.SystemBarUtils;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -45,6 +46,17 @@ public class SimplenoteSignupActivity extends AppCompatActivity {
         final boolean isSignUp = !getIntent().getBooleanExtra(KEY_IS_LOGIN, false);
         initContainer(isSignUp);
         initToolbar(isSignUp);
+        
+        // Setup edge-to-edge display with proper WindowInsets handling
+        // Toolbar has white background, so we need light status bar appearance (dark icons)
+        SystemBarUtils.setupEdgeToEdgeWithToolbar(
+            this,
+            findViewById(R.id.main),
+            mToolbar,
+            findViewById(R.id.fragment_container),
+            true, // Light status bar (dark icons) for white toolbar background
+            true  // Light navigation bar (dark icons)
+        );
     }
 
     private void initContainer(final boolean isSignUp) {
