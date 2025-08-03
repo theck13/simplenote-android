@@ -3,12 +3,17 @@ package com.automattic.simplenote.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -148,5 +153,40 @@ public class DisplayUtils {
         if (inputMethodManager != null) {
             inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
+    }
+
+    /**
+     * Apply window insets for a {@link FloatingActionButton} in a {@link RelativeLayout} to the given {@link View}.
+     *
+     * @param insets     {@link WindowInsets} to apply to {@link View}.
+     * @param resources  {@link Resources} to get dimension value from.
+     * @param view       {@link View} to apply {@link WindowInsets} to.
+     *
+     * @return           {@link WindowInsets} supplied from a listener.
+     */
+    public static WindowInsets applyWindowInsetsForFloatingActionButton(WindowInsets insets, Resources resources, View view) {
+        int bottom;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            bottom = insets.getInsets(WindowInsets.Type.systemBars()).bottom;
+        } else {
+            bottom = insets.getSystemWindowInsetBottom();
+        }
+
+        int button = (int) resources.getDimension(R.dimen.button_floating);
+        int margin = (int) resources.getDimension(R.dimen.margin_default);
+
+        RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonLayoutParams.setMargins(margin, 0, margin, bottom + margin);
+        buttonLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        buttonLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+        buttonLayoutParams.height = button;
+        buttonLayoutParams.width = button;
+        view.setLayoutParams(buttonLayoutParams);
+
+        return insets;
     }
 }
