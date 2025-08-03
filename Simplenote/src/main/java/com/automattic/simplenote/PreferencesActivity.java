@@ -60,7 +60,8 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
         }
 
         // Setup edge-to-edge display with proper WindowInsets handling
-        SystemBarUtils.setupEdgeToEdgeWithToolbar(
+        // Use auto-theming to properly handle status bar appearance based on theme
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
             this,
             findViewById(R.id.main_parent_view),
             toolbar,
