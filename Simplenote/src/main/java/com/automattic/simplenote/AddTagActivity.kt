@@ -1,5 +1,6 @@
 package com.automattic.simplenote
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.LinkMovementMethod
@@ -10,6 +11,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.doAfterTextChanged
 import com.automattic.simplenote.databinding.ActivityTagAddBinding
 import com.automattic.simplenote.utils.DisplayUtils
@@ -36,6 +39,19 @@ class AddTagActivity : AppCompatActivity() {
         viewModel.start()
 
         setContentView(binding.root)
+        
+        // Setup edge-to-edge display for Android 15+ compatibility
+        // This is a transparent dialog activity without toolbar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            
+            val controller = WindowCompat.getInsetsController(window, window.decorView)
+            controller?.let {
+                // Light status bar appearance for the transparent dialog
+                it.isAppearanceLightStatusBars = true
+                it.isAppearanceLightNavigationBars = true
+            }
+        }
     }
 
     private fun ActivityTagAddBinding.setupViews() {
