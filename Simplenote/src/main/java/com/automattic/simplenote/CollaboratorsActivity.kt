@@ -16,6 +16,7 @@ import com.automattic.simplenote.utils.CollaboratorsAdapter
 import com.automattic.simplenote.utils.CollaboratorsAdapter.*
 import com.automattic.simplenote.utils.CollaboratorsAdapter.CollaboratorDataItem.*
 import com.automattic.simplenote.utils.IntentUtils
+import com.automattic.simplenote.utils.SystemBarUtils
 import com.automattic.simplenote.utils.toast
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
@@ -47,6 +48,16 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             setObservers()
 
             viewModel.loadCollaborators(noteId)
+            
+            // Setup edge-to-edge display with proper WindowInsets handling
+            // Use auto-theming to properly handle status bar appearance based on theme
+            val toolbar = findViewById<Toolbar>(R.id.toolbar)
+            SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
+                this@CollaboratorsActivity,
+                findViewById(R.id.main_parent_view),
+                toolbar,
+                collaboratorsList
+            )
         }
     }
 
