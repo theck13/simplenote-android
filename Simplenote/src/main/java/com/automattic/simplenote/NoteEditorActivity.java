@@ -36,6 +36,7 @@ import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.IntentUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
+import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
@@ -230,6 +231,15 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
                 "note_list_widget_note_tapped"
             );
         }
+        
+        // Setup edge-to-edge display with proper WindowInsets handling
+        // Use auto-theming to properly handle status bar appearance based on theme
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
+            this,
+            findViewById(R.id.main_parent_view),
+            toolbar,
+            findViewById(R.id.pager)
+        );
     }
 
     @Override
