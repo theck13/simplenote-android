@@ -34,3 +34,17 @@
 
 # AndroidAsync lib compiles these classes
 -dontwarn org.bouncycastle.**
+
+# PasscodeLock classes - needed for tests that trigger analytics which instantiate AppLock
+-keep class org.wordpress.passcodelock.** { *; }
+-dontwarn org.wordpress.passcodelock.**
+
+# Keep specific classes that are failing in tests
+-keep class org.wordpress.passcodelock.AbstractAppLock { *; }
+-keep class org.wordpress.passcodelock.DefaultAppLock { *; }
+-keep class org.wordpress.passcodelock.AppLockManager { *; }
+
+# Keep the SimplenoteAppLock and related analytics classes
+-keep class com.automattic.simplenote.SimplenoteAppLock { *; }
+-keep class com.automattic.simplenote.analytics.** { *; }
+-keep class com.automattic.simplenote.Simplenote { *; }

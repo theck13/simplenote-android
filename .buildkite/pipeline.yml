@@ -16,7 +16,7 @@ steps:
   - wait
 
   - label: ":hammer_and_pick: Build and Test"
-    command: ./gradlew --stacktrace testRelease
+    command: ./gradlew --stacktrace testReleaseTest
     plugins: [$CI_TOOLKIT_PLUGIN]
     notify:
       - github_commit_status:
