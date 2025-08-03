@@ -37,7 +37,7 @@ class TagsActivity : ThemedAppCompatActivity() {
         binding.setObservers()
 
         viewModel.start()
-        
+
         // Setup edge-to-edge display with proper WindowInsets handling
         // Use auto-theming to properly handle status bar appearance based on theme
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -72,6 +72,9 @@ class TagsActivity : ThemedAppCompatActivity() {
         buttonAdd.setOnLongClickListener {
             viewModel.longClickAddTag()
             true
+        }
+        buttonAdd.setOnApplyWindowInsetsListener { view, insets ->
+            DisplayUtils.applyWindowInsetsForFloatingActionButton(insets, resources, view)
         }
     }
 
