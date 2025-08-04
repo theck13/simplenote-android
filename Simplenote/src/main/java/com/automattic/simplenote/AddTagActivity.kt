@@ -43,7 +43,7 @@ class AddTagActivity : AppCompatActivity() {
 
             // Setup edge-to-edge display with proper WindowInsets handling
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                SystemBarUtils.setupEdgeToEdgeSimple(this@AddTagActivity, root)
+                SystemBarUtils.setupEdgeToEdgeWithAutoTheming(this@AddTagActivity, root, null, null)
             }
 
             // Add minimal IME (keyboard) insets handling for dialog positioning
