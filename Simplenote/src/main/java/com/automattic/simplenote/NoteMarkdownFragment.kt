@@ -137,7 +137,7 @@ class NoteMarkdownFragment : Fragment(), Bucket.Listener<Note> {
                 override fun onPageFinished(view: WebView, url: String) {
                     super.onPageFinished(view, url)
 
-                    Handler().postDelayed({
+                    Handler(Looper.getMainLooper()).postDelayed({
                         mNote?.let { note ->
                             note.simperiumKey?.let { key ->
                                 (layout as NestedScrollView).smoothScrollTo(0, mPreferences?.getInt(key, 0) ?: 0)
