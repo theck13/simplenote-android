@@ -1,12 +1,13 @@
 package com.automattic.simplenote.repositories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.automattic.simplenote.CoroutineTestRule
 import com.automattic.simplenote.models.Note
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -19,11 +20,16 @@ import org.mockito.kotlin.whenever
 class SimperiumCollaboratorsRepositoryTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutinesTestRule = CoroutineTestRule(UnconfinedTestDispatcher())
 
     private val mockBucket: Bucket<*> = mock(Bucket::class.java)
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
 
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(
+        notesBucket,
+        coroutinesTestRule.testDispatcher
+    )
 
     private val noteId = "key1"
     private val note = Note(noteId).apply {
@@ -66,7 +72,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun getCollaboratorsShouldReturnJustEmails() = runBlockingTest {
+    fun getCollaboratorsShouldReturnJustEmails() = runTest {
         val expected = CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
         val result = collaboratorsRepository.getCollaborators(noteId)
 
@@ -74,7 +80,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun getCollaboratorsWhenNoteInTrashShouldReturnError() = runBlockingTest {
+    fun getCollaboratorsWhenNoteInTrashShouldReturnError() = runTest {
         note.isDeleted = true
 
         val result = collaboratorsRepository.getCollaborators(noteId)
@@ -84,7 +90,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
+    fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() = runTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
 
         val result = collaboratorsRepository.getCollaborators(noteId)
@@ -94,7 +100,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun addCollaboratorShouldAddATagToNote() = runBlockingTest {
+    fun addCollaboratorShouldAddATagToNote() = runTest {
         val collaborator = "test1@email.com"
 
         val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
@@ -105,7 +111,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun addCollaboratorWhenNoteInTrashShouldReturnError() = runBlockingTest {
+    fun addCollaboratorWhenNoteInTrashShouldReturnError() = runTest {
         note.isDeleted = true
         val collaborator = "test1@email.com"
 
@@ -116,7 +122,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun addCollaboratorWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
+    fun addCollaboratorWhenNoteIsDeletedShouldReturnError() = runTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
         val collaborator = "test1@email.com"
 
@@ -127,7 +133,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun removeCollaboratorShouldAddATagToNote() = runBlockingTest {
+    fun removeCollaboratorShouldAddATagToNote() = runTest {
         val collaborator = "name@example.co.jp"
 
         val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
@@ -138,7 +144,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun removeCollaboratorWhenNoteInTrashShouldReturnError() = runBlockingTest {
+    fun removeCollaboratorWhenNoteInTrashShouldReturnError() = runTest {
         note.isDeleted = true
         val collaborator = "test1@email.com"
 
@@ -149,7 +155,7 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun removeCollaboratorWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
+    fun removeCollaboratorWhenNoteIsDeletedShouldReturnError() = runTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
         val collaborator = "test1@email.com"
 

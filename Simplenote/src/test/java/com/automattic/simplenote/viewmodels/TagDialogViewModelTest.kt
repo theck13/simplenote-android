@@ -1,6 +1,7 @@
 package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.automattic.simplenote.CoroutineTestRule
 import com.automattic.simplenote.R
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
@@ -10,7 +11,7 @@ import com.automattic.simplenote.usecases.ValidateTagUseCase
 import com.automattic.simplenote.utils.getLocalRandomStringOfLen
 import com.simperium.client.Bucket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -20,11 +21,17 @@ import org.mockito.Mockito.mock
 
 @ExperimentalCoroutinesApi
 class TagDialogViewModelTest {
-    @get:Rule val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutinesTestRule = CoroutineTestRule(UnconfinedTestDispatcher())
 
     private val fakeTagsRepository = mock(TagsRepository::class.java)
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(
+        notesBucket,
+        coroutinesTestRule.testDispatcher
+    )
     private val validateTagUseCase = ValidateTagUseCase(fakeTagsRepository, collaboratorsRepository)
     private val viewModel = TagDialogViewModel(fakeTagsRepository, validateTagUseCase)
     private val tagName = "tag1"

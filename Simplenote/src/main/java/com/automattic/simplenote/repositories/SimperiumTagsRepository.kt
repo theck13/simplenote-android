@@ -12,7 +12,6 @@ import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
 import com.simperium.client.Query
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -82,9 +81,9 @@ class SimperiumTagsRepository @Inject constructor(
     }
 
     override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
-        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
-        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
-        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
+        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> trySend(true).isSuccess }
+        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> trySend(true).isSuccess }
+        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> trySend(true).isSuccess }
 
         tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
         tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)

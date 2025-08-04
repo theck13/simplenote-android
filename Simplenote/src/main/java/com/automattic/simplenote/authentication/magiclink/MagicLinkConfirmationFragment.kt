@@ -70,6 +70,7 @@ class MagicLinkConfirmationFragment : Fragment() {
                         parentFragmentManager.popBackStack()
                     }
                 }
+                else -> {} // Do nothing
             }
         }
         return view

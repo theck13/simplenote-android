@@ -2,6 +2,7 @@ package com.automattic.simplenote.viewmodels
 
 import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.automattic.simplenote.CoroutineTestRule
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
@@ -13,11 +14,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -29,11 +29,17 @@ import org.mockito.kotlin.stub
 
 @ExperimentalCoroutinesApi
 class TagsViewModelTest {
-    @get:Rule val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutinesTestRule = CoroutineTestRule(UnconfinedTestDispatcher())
 
     private val tagsBucket = mock(Bucket::class.java) as Bucket<Tag>
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(
+        notesBucket,
+        coroutinesTestRule.testDispatcher
+    )
     private val fakeTagsRepository = mock(TagsRepository::class.java)
     private val getTagsUseCase: GetTagsUseCase = GetTagsUseCase(fakeTagsRepository, collaboratorsRepository)
     private val viewModel = TagsViewModel(fakeTagsRepository, getTagsUseCase)
@@ -59,7 +65,7 @@ class TagsViewModelTest {
     )
 
     @Test
-    fun startShouldSetupUiState() = runBlockingTest {
+    fun startShouldSetupUiState() = runTest {
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
@@ -75,7 +81,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun whenTagsChangedWithANewTagUiStateShouldUpdate() = runBlockingTest {
+    fun whenTagsChangedWithANewTagUiStateShouldUpdate() = runTest {
         val variableTagItems = tagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
@@ -107,7 +113,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runBlockingTest {
+    fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runTest {
         val variableTagItems = expectedTagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
@@ -159,7 +165,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun closeSearchShouldCleanQuery() = runBlockingTest {
+    fun closeSearchShouldCleanQuery() = runTest {
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
@@ -175,7 +181,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun searchShouldFilterTags() = runBlockingTest {
+    fun searchShouldFilterTags() = runTest {
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
@@ -198,7 +204,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runBlockingTest {
+    fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runTest {
         val mutableTagItems = expectedTagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(mutableTagItems)
@@ -236,7 +242,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun clickDeleteTagOfTagWithoutNotesShouldDeleteTagDirectly() = runBlockingTest {
+    fun clickDeleteTagOfTagWithoutNotesShouldDeleteTagDirectly() = runTest {
         fakeTagsRepository.stub {
             onBlocking { deleteTag(any()) }.doReturn(Unit)
         }
