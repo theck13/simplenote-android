@@ -12,7 +12,10 @@ import android.view.ContextThemeWrapper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -68,6 +71,21 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
             SystemBarUtils.setSystemBarsAppearance(this, true, true); // Dark icons on light background
+            
+            // Apply navigation bar insets to avoid button overlap with 3-button navigation
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, windowInsets) -> {
+                Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                
+                // Apply bottom padding to avoid navigation bar overlap
+                v.setPadding(
+                    v.getPaddingLeft(),
+                    v.getPaddingTop(),
+                    v.getPaddingRight(),
+                    systemBars.bottom
+                );
+                
+                return WindowInsetsCompat.CONSUMED;
+            });
         }
 
         final Intent intent = getIntent();
