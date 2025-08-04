@@ -307,7 +307,7 @@ class NoteMarkdownFragment : Fragment(), Bucket.Listener<Note> {
     }
 
     override fun onSaveObject(bucket: Bucket<Note>, note: Note) {
-        if (note == mNote) {
+        if (note.equals(mNote)) {
             mNote = note
             requireActivity().invalidateOptionsMenu()
         }
