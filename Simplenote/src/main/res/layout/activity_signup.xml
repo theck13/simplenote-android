@@ -13,10 +13,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
+        android:background="?attr/toolbarColor"
         android:elevation="0dp"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-        app:theme="@style/ThemeOverlay.MaterialComponents.Light"
+        app:titleTextColor="@color/text_title"
+        app:navigationIconTint="@color/text_title"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents"
+        app:theme="@style/ThemeOverlay.MaterialComponents"
         tools:layout_height="wrap_content" />
 
     <FrameLayout
