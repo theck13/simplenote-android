@@ -16,8 +16,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
 class TagDialogViewModelTest {
@@ -85,8 +85,8 @@ class TagDialogViewModelTest {
     @Test
     fun validateTagIsCollaborator() {
         val tagName = "tag1@email.com"
-        `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
-        `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(true)
+        whenever(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
+        whenever(fakeTagsRepository.isTagMissing(tagName)).thenReturn(true)
 
         viewModel.updateUiState(tagName)
 
@@ -96,8 +96,8 @@ class TagDialogViewModelTest {
     @Test
     fun validateValidTag() {
         val hewTagName = "tag2"
-        `when`(fakeTagsRepository.isTagValid(hewTagName)).thenReturn(true)
-        `when`(fakeTagsRepository.isTagConflict(hewTagName, tagName)).thenReturn(false)
+        whenever(fakeTagsRepository.isTagValid(hewTagName)).thenReturn(true)
+        whenever(fakeTagsRepository.isTagConflict(hewTagName, tagName)).thenReturn(false)
 
         viewModel.updateUiState(hewTagName)
 
@@ -117,8 +117,8 @@ class TagDialogViewModelTest {
     fun editTagWithNewName() {
         val newTagName = "tag2"
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
-        `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
+        whenever(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
+        whenever(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
 
         viewModel.renameTagIfValid()
 
@@ -130,8 +130,8 @@ class TagDialogViewModelTest {
     fun editTagWithConflict() {
         val newTagName = "tag2"
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(true)
-        `when`(fakeTagsRepository.getCanonicalTagName(newTagName)).thenReturn(newTagName)
+        whenever(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(true)
+        whenever(fakeTagsRepository.getCanonicalTagName(newTagName)).thenReturn(newTagName)
 
         viewModel.renameTagIfValid()
 
@@ -145,8 +145,8 @@ class TagDialogViewModelTest {
     fun editTagWithError() {
         val newTagName = "tag2"
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
-        `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
+        whenever(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
+        whenever(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
 
         viewModel.renameTagIfValid()
 
@@ -158,7 +158,7 @@ class TagDialogViewModelTest {
     fun renameTagValid() {
         val newTagName = "tag2"
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
+        whenever(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
 
         viewModel.renameTag()
 
@@ -170,7 +170,7 @@ class TagDialogViewModelTest {
     fun renameTagError() {
         val newTagName = "tag2"
         viewModel.updateUiState(newTagName)
-        `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
+        whenever(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
 
         viewModel.renameTag()
 

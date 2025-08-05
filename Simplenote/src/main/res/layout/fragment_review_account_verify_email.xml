@@ -2,6 +2,7 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clipToPadding="false"
     android:fillViewport="true"
@@ -27,7 +28,7 @@
             android:layout_width="@dimen/icon_fullscreen"
             android:layout_marginBottom="@dimen/padding_medium"
             android:src="@drawable/ic_warning_24dp"
-            android:tint="?attr/toolbarIconColor">
+            app:tint="?attr/toolbarIconColor">
         </ImageView>
 
         <TextView

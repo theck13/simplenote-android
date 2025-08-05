@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.9.25'
-    ext.google_dagger = '2.52'
+    ext.kotlin_version = '2.2.0'
+    ext.google_dagger = '2.57'
 
     repositories {
         maven {
@@ -12,14 +12,14 @@ buildscript {
             }
         }
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.1'
+        classpath 'com.android.tools.build:gradle:8.11.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$google_dagger"
-        classpath 'com.automattic.android:configure:0.6.1'
+        classpath 'com.automattic.android:configure:0.6.5'
     }
 }
 
@@ -68,7 +68,7 @@ ext {
     sentryVersion = '5.8.0'
 
     automatticTracksVersion = '6.0.4'
-    androidxLifecycleVersion = '2.5.1'
+    androidxLifecycleVersion = '2.9.2'
 
     screengrabVersion = '2.1.1'
 }

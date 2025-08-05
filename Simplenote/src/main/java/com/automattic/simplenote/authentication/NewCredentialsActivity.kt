@@ -90,6 +90,7 @@ open class NewCredentialsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         this.startActivity(Intent(this, SimplenoteAuthenticationActivity::class.java))
         finish()
     }

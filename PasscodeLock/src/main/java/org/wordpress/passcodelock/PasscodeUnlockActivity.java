@@ -1,5 +1,6 @@
 package org.wordpress.passcodelock;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 
@@ -7,6 +8,7 @@ import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
 
 public class PasscodeUnlockActivity extends AbstractPasscodeKeyboardActivity {
+	@SuppressLint("RestrictedApi")
     @Override
     public void onResume() {
         super.onResume();
@@ -39,6 +41,7 @@ public class PasscodeUnlockActivity extends AbstractPasscodeKeyboardActivity {
         }
     }
 
+	@SuppressLint("RestrictedApi")
     @Override
     protected FingerprintManagerCompat.AuthenticationCallback getFingerprintCallback() {
         return new FingerprintManagerCompat.AuthenticationCallback() {
@@ -59,6 +62,7 @@ public class PasscodeUnlockActivity extends AbstractPasscodeKeyboardActivity {
         };
     }
 
+	@SuppressLint("RestrictedApi")
     private boolean isFingerprintSupportedAndEnabled() {
         return mFingerprintManager.isHardwareDetected() &&
                mFingerprintManager.hasEnrolledFingerprints() &&

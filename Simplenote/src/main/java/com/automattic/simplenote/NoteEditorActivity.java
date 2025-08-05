@@ -234,7 +234,8 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        handleBackPressed();
+        super.onBackPressed();
+	    handleBackPressed();
     }
 
     private void handleBackPressed() {
@@ -249,7 +250,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
 
             finish();
         } else {
-            super.onBackPressed();
+	        getOnBackPressedDispatcher().onBackPressed();
         }
     }
 

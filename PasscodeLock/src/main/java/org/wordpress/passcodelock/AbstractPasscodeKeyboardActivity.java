@@ -1,5 +1,6 @@
 package org.wordpress.passcodelock;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -24,9 +25,11 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     protected InputFilter[] filters = null;
     protected TextView topMessage = null;
 
+	@SuppressLint("RestrictedApi")
     protected FingerprintManagerCompat mFingerprintManager;
     protected CancellationSignal mCancel;
 
+	@SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +39,9 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
         }
 
         setContentView(R.layout.app_passcode_keyboard);
-        
+
         topMessage = (TextView) findViewById(R.id.passcodelock_prompt);
-        
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String message = extras.getString(KEY_MESSAGE);
@@ -46,11 +49,11 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
                 topMessage.setText(message);
             }
         }
-        
+
         filters = new InputFilter[2];
         filters[0]= new InputFilter.LengthFilter(1);
         filters[1] = onlyNumber;
-        
+
         mPinCodeField = (EditText)findViewById(R.id.pin_field);
 
         //setup the keyboard
@@ -158,8 +161,9 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     protected void showPasswordError(){
         Toast.makeText(AbstractPasscodeKeyboardActivity.this, R.string.passcode_wrong_passcode, Toast.LENGTH_SHORT).show();
     }
-    
+
     protected abstract void onPinLockInserted();
+	@SuppressLint("RestrictedApi")
     protected abstract FingerprintManagerCompat.AuthenticationCallback getFingerprintCallback();
 
     private InputFilter onlyNumber = new InputFilter() {

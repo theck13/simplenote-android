@@ -2,6 +2,7 @@
 
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
     android:fillViewport="true"
@@ -48,8 +49,7 @@
                     android:scrollHorizontally="false"
                     android:textColor="?attr/noteEditorTextColor"
                     android:textColorLink="?attr/colorAccent"
-                    tools:context=".NoteEditorFragment">
-                </com.automattic.simplenote.widgets.SimplenoteEditText>
+                    tools:context=".NoteEditorFragment"/>
 
             </androidx.core.widget.NestedScrollView>
 
@@ -75,14 +75,12 @@
                         android:layout_width="wrap_content"
                         android:paddingBottom="@dimen/padding_small"
                         android:paddingTop="@dimen/padding_small"
-                        android:visibility="gone">
-                    </com.google.android.material.chip.ChipGroup>
+                        android:visibility="gone"/>
 
                     <View
                         android:id="@+id/tag_padding"
                         android:layout_height="match_parent"
-                        android:layout_width="@dimen/padding_small">
-                    </View>
+                        android:layout_width="@dimen/padding_small"/>
 
                     <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
                         android:id="@+id/tag_input"
@@ -100,8 +98,7 @@
                         android:nextFocusUp="@id/note_editor"
                         android:textColor="?attr/noteEditorTextColor"
                         android:textColorHint="?attr/hintTextColor"
-                        android:textSize="@dimen/text_tag">
-                    </com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView>
+                        android:textSize="@dimen/text_tag"/>
 
                 </LinearLayout>
 
@@ -124,7 +121,7 @@
                 android:layout_height="@dimen/logo_empty"
                 android:layout_width="@dimen/logo_empty"
                 android:src="@drawable/ic_simplenote_24dp"
-                android:tint="?attr/emptyImageColor">
+                app:tint="?attr/emptyImageColor">
             </ImageView>
 
         </LinearLayout>

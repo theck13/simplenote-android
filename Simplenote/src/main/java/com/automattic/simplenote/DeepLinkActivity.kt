@@ -27,8 +27,14 @@ class DeepLinkActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             VERIFIED_WEB_SCHEME -> {
-                // New MagicLink
-                startMagicLinkConfirmation(uri)
+                // Check if this is a password reset URL
+                if (uri.path?.contains("/account/") == true && uri.path?.contains("/reset") == true) {
+                    // launch the app if they tapped on a password reset link on app.simplenote.com
+                    handlePasswordReset()
+                } else {
+                    // New MagicLink
+                    startMagicLinkConfirmation(uri)
+                }
             }
             LOGIN_SCHEME -> {
                 if (queryParamContainsData(uri.query, USERNAME_KEY_QUERY) && queryParamContainsData(uri.query, AUTH_CODE_QUERY)) {
@@ -86,6 +92,12 @@ class DeepLinkActivity : AppCompatActivity() {
 
             SimplenoteAuthenticationActivity.startNotesActivity(applicationContext, false);
         }
+    }
+
+    private fun handlePasswordReset() {
+        val intent = IntentUtils.maybeAliasedIntent(applicationContext)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun queryParamContainsData(path: String?, otherString: String) : Boolean = path?.contains(otherString, true) == true
