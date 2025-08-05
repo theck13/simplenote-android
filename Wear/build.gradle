@@ -16,11 +16,6 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        releaseTest {
-            initWith release
-            minifyEnabled false
-            shrinkResources false
-        }
     }
 
     defaultConfig {

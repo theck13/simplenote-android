@@ -21,13 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
-        // New build type for CI testing without minification to avoid ClassNotFoundException
-        releaseTest {
-            initWith release
-            minifyEnabled false
-            shrinkResources false
-        }
-
         // Dedicated build type for screenshots so that we can add the special
         // permissions only to it, keeping debug and release closer together to
         // make bug hunting easier.
