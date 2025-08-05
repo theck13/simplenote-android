@@ -34,10 +34,10 @@ import com.automattic.simplenote.utils.NoteUtils
 import com.automattic.simplenote.utils.SimplenoteLinkify
 import com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX
 import com.automattic.simplenote.utils.ThemeUtils
+import com.automattic.simplenote.utils.markdown.SimplenoteMarkdownFlavorDescriptor
 import com.google.android.material.snackbar.Snackbar
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
-import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
 import java.lang.ref.SoftReference
@@ -54,7 +54,7 @@ class NoteMarkdownFragment : Fragment(), Bucket.Listener<Note> {
                     "<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1,initial-scale=1\">\n" +
                     cssContent + "</head><body>"
 
-            val flavour = CommonMarkFlavourDescriptor()
+            val flavour = SimplenoteMarkdownFlavorDescriptor()
             val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(sourceContent)
             var parsedMarkdown = HtmlGenerator(sourceContent, parsedTree, flavour).generateHtml()
 
