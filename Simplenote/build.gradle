@@ -49,8 +49,6 @@ android {
 
         minSdkVersion 23
         targetSdkVersion 34
-
-        testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
 
 
