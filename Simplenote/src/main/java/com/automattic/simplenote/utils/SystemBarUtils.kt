@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -58,10 +57,8 @@ object SystemBarUtils {
             activity.getWindow().getDecorView()
         )
 
-        if (controller != null) {
-            controller.setAppearanceLightStatusBars(lightStatusBar)
-            controller.setAppearanceLightNavigationBars(lightNavigationBar)
-        }
+        controller.isAppearanceLightStatusBars = lightStatusBar
+        controller.isAppearanceLightNavigationBars = lightNavigationBar
     }
 
     /**
@@ -76,43 +73,43 @@ object SystemBarUtils {
      */
     @JvmStatic
     fun setupEdgeToEdgeWithToolbar(
-        activity: Activity?,
+        activity: Activity,
         rootView: View?,
         toolbar: Toolbar?,
         contentView: View?,
         lightStatusBar: Boolean,
         lightNavigationBar: Boolean
     ) {
-        if (activity == null || rootView == null) return
-
         // Enable edge-to-edge display
         WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false)
 
         // Set custom status bar appearance
         setSystemBarsAppearance(activity, lightStatusBar, lightNavigationBar)
 
-        // Apply insets to the root view first - handles horizontal system bars (notches/cutouts)
-        ViewCompat.setOnApplyWindowInsetsListener(rootView, OnApplyWindowInsetsListener { v: View?, windowInsets: WindowInsetsCompat? ->
-            val systemBars = windowInsets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Apply horizontal insets to root view to handle notches/cutouts
-            v!!.setPadding(
-                systemBars.left,
-                0,  // Don't apply top padding here - toolbar will handle it
-                systemBars.right,
-                0 // Don't apply bottom padding here - content view will handle it
-            )
-            windowInsets
-        })
+        rootView?.let {
+            // Apply insets to the root view first - handles horizontal system bars (notches/cutouts)
+            ViewCompat.setOnApplyWindowInsetsListener(it, { v: View, windowInsets: WindowInsetsCompat ->
+                val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                // Apply horizontal insets to root view to handle notches/cutouts
+                v.setPadding(
+                    systemBars.left,
+                    0,  // Don't apply top padding here - toolbar will handle it
+                    systemBars.right,
+                    0 // Don't apply bottom padding here - content view will handle it
+                )
+                windowInsets
+            })
+        }
 
         // Handle toolbar insets - make sure it doesn't overlap with status bar
-        if (toolbar != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(toolbar, OnApplyWindowInsetsListener { v: View?, windowInsets: WindowInsetsCompat? ->
-                val systemBars = windowInsets!!.getInsets(WindowInsetsCompat.Type.systemBars())
+        toolbar?.let {
+            ViewCompat.setOnApplyWindowInsetsListener(it, { v: View, windowInsets: WindowInsetsCompat ->
+                val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
                 // Apply top margin to toolbar to push it below status bar
-                val toolbarParams = v!!.getLayoutParams() as MarginLayoutParams?
-                if (toolbarParams != null) {
-                    toolbarParams.topMargin = systemBars.top
-                    v.setLayoutParams(toolbarParams)
+                val toolbarParams = v.getLayoutParams() as MarginLayoutParams?
+                toolbarParams?.let {
+                    it.topMargin = systemBars.top
+                    v.setLayoutParams(it)
                 }
                 windowInsets
             })
@@ -122,10 +119,10 @@ object SystemBarUtils {
         if (contentView != null) {
             ViewCompat.setOnApplyWindowInsetsListener(
                 contentView,
-                OnApplyWindowInsetsListener { v: View?, windowInsets: WindowInsetsCompat? ->
-                    val systemBars = windowInsets!!.getInsets(WindowInsetsCompat.Type.systemBars())
+                { v: View, windowInsets: WindowInsetsCompat ->
+                    val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
                     // Apply bottom padding to avoid navigation bar overlap
-                    v!!.setPadding(
+                    v.setPadding(
                         v.getPaddingLeft(),
                         v.getPaddingTop(),
                         v.getPaddingRight(),
