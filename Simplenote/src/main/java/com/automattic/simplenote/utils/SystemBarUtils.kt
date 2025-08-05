@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.math.max
 
 /**
  * Utility class to handle system bar appearance changes in a way that's compatible
@@ -116,19 +117,24 @@ object SystemBarUtils {
         }
 
         // Handle content view insets - avoid overlap with navigation bar
-        if (contentView != null) {
+        contentView?.let {
             ViewCompat.setOnApplyWindowInsetsListener(
-                contentView,
+                it,
                 { v: View, windowInsets: WindowInsetsCompat ->
                     val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                    // Apply bottom padding to avoid navigation bar overlap
+                    val ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+                    // Apply bottom padding to avoid navigation bar overlap, but let's consider IME too
+                    // this will prevent the keyboard from pushing the content down
+                    val bottomPadding = max(systemBars.bottom, ime.bottom)
                     v.setPadding(
                         v.getPaddingLeft(),
                         v.getPaddingTop(),
                         v.getPaddingRight(),
-                        systemBars.bottom
+                        bottomPadding
                     )
-                    WindowInsetsCompat.CONSUMED
+                    // WARNING: Don't consume IME insets - let them pass through to child views (scroll views)
+                    // this will allow proper scrolling when keyboard appears
+                    windowInsets.inset(0, 0, 0, systemBars.bottom)
                 })
         }
     }
