@@ -30,6 +30,7 @@ import com.automattic.simplenote.utils.AccountNetworkUtils
 import com.automattic.simplenote.utils.AccountVerificationEmailHandler
 import com.automattic.simplenote.utils.AppLog
 import com.automattic.simplenote.utils.HtmlCompat
+import com.automattic.simplenote.utils.SystemBarUtils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.textfield.TextInputLayout
 import com.simperium.Simperium
@@ -249,6 +250,15 @@ open class NewCredentialsActivity : AppCompatActivity() {
         ) {
             Handler().postDelayed({ startLogin() }, 600L)
         }
+
+        // Setup edge-to-edge display with proper WindowInsets handling
+        // Use auto-theming to properly handle status bar appearance based on theme
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
+            this,
+            findViewById(R.id.main_parent_view),
+            toolbar,
+            findViewById(R.id.content_view)
+        );
     }
 
     protected fun handleResponseSuccess(user: User, userId: String?, token: String?, provider: AuthProvider) {
