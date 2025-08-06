@@ -115,10 +115,6 @@ public class PrefUtils {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-	public static void clearThemePrefs(Context context) {
-		getPrefs(context).edit().remove(PREF_THEME).apply();
-	}
-
     public static String getStringPref(Context context, String prefKey) {
         return getStringPref(context, prefKey, "");
     }
