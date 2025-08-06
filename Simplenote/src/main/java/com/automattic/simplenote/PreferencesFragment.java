@@ -14,6 +14,7 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_ASCENDING_LABEL;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING_LABEL;
+import static com.automattic.simplenote.utils.PrefUtils.clearThemePrefs;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -585,6 +586,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         );
 
         AuthUtils.logOut((Simplenote) requireActivity().getApplication());
+	    clearThemePrefs(getActivity());
 
         getActivity().finish();
     }
