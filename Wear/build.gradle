@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 apply plugin: 'com.android.application'
@@ -15,11 +15,6 @@ android {
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        releaseTest {
-            initWith release
-            minifyEnabled false
-            shrinkResources false
         }
     }
 
@@ -40,7 +35,7 @@ dependencies {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven {
         url "https://maven.google.com"
     }

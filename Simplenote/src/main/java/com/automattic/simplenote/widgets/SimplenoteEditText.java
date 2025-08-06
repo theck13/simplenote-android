@@ -76,7 +76,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 		// solves a crash after updating dependencies in which this method
 	    // gets called in super() instantiation before the mTokenizer variable
 	    // is instantiated
-		if (mTokenizer == null) {
+	    if (mTokenizer == null) {
 			return false;
 		}
 

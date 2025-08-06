@@ -16,7 +16,7 @@ steps:
   - wait
 
   - label: ":hammer_and_pick: Build and Test"
-    command: ./gradlew --stacktrace testReleaseTest
+    command: ./gradlew --stacktrace testDebugUnitTest
     plugins: [$CI_TOOLKIT_PLUGIN]
     notify:
       - github_commit_status:
@@ -36,7 +36,7 @@ steps:
           context: Danger - PR Check
 
   - label: ":microscope: Lint"
-    command: ./gradlew --stacktrace lintRelease
+    command: ./gradlew --stacktrace lintDebug
     plugins: [$CI_TOOLKIT_PLUGIN]
     notify:
       - github_commit_status:

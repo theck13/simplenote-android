@@ -29,7 +29,8 @@ class DeepLinkActivity : AppCompatActivity() {
             VERIFIED_WEB_SCHEME -> {
                 // Check if this is a password reset URL
                 if (uri.path?.contains("/account/") == true && uri.path?.contains("/reset") == true) {
-                    handlePasswordReset(uri)
+                    // launch the app if they tapped on a password reset link on app.simplenote.com
+                    handlePasswordReset()
                 } else {
                     // New MagicLink
                     startMagicLinkConfirmation(uri)
@@ -93,19 +94,10 @@ class DeepLinkActivity : AppCompatActivity() {
         }
     }
 
-    private fun handlePasswordReset(uri: Uri) {
-        val redirectParam = uri.getQueryParameter("redirect")
-        if (redirectParam == "simplenote://launch") {
-            // Handle the redirect to launch the app
-            val intent = IntentUtils.maybeAliasedIntent(applicationContext)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        } else {
-            // Default behavior for reset URLs without redirect
-            val intent = IntentUtils.maybeAliasedIntent(applicationContext)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
+    private fun handlePasswordReset() {
+        val intent = IntentUtils.maybeAliasedIntent(applicationContext)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun queryParamContainsData(path: String?, otherString: String) : Boolean = path?.contains(otherString, true) == true
