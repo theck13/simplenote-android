@@ -24,7 +24,6 @@
     <string-array name="array_theme_names" tools:ignore="InconsistentArrays">
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>
-        <item>@string/theme_auto</item>
         <item>@string/theme_system</item>
     </string-array>
 
