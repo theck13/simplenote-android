@@ -133,6 +133,7 @@
     <color name="text_description_secondary">@color/gray_50</color>
 
     <!-- SIMPERIUM -->
+    <color name="background">@color/background_light</color>
     <color name="background_button_disabled">@color/gray_20</color>
     <color name="background_button_primary">@color/simplenote_blue_50</color>
     <color name="background_button_secondary">@color/wordpress_blue_50</color>

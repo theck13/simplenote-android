@@ -28,8 +28,17 @@
     <color name="text_description">@color/gray_20</color>
     <color name="text_description_secondary">@color/gray_30</color>
 
-    <!-- Button text colors for dark theme -->
-    <color name="text_button_primary">@color/gray_1</color>
-    <color name="text_button_secondary">@color/gray_1</color>
+    <!-- SIMPERIUM -->
+    <color name="background">@color/background_dark</color>
+    <color name="background_button_disabled">@color/gray_50</color>
+    <color name="background_button_primary">@color/simplenote_blue_20</color>
+    <color name="background_button_secondary">@color/wordpress_blue_20</color>
+    <color name="text_button_disabled">@color/gray_50</color>
+    <color name="text_button_primary">@color/gray_100</color>
+    <color name="text_button_secondary">@color/gray_100</color>
+    <color name="text_button_tertiary">@color/simplenote_blue_10</color>
+    <color name="text_link">@color/simplenote_blue_20</color>
+    <color name="text_subtitle">@android:color/white</color>
+    <color name="text_title">@android:color/white</color>
 
 </resources>
