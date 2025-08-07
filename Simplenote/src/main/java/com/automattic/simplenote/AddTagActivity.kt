@@ -1,5 +1,6 @@
 package com.automattic.simplenote
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.LinkMovementMethod
@@ -10,10 +11,13 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.automattic.simplenote.databinding.ActivityTagAddBinding
 import com.automattic.simplenote.utils.DisplayUtils
 import com.automattic.simplenote.utils.HtmlCompat
+import com.automattic.simplenote.utils.SystemBarUtils
 import com.automattic.simplenote.utils.ThemeUtils
 import com.automattic.simplenote.viewmodels.AddTagViewModel
 import com.automattic.simplenote.widgets.MorphCircleToRectangle
@@ -27,15 +31,29 @@ class AddTagActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeUtils.setTheme(this)
         super.onCreate(savedInstanceState)
-        val binding: ActivityTagAddBinding = ActivityTagAddBinding.inflate(layoutInflater)
 
-        binding.setObservers()
-        binding.setupLayout()
-        binding.setupViews()
+        with(ActivityTagAddBinding.inflate(layoutInflater)) {
+            setContentView(root)
+            setupLayout()
+            setupViews()
+            setObservers()
 
-        viewModel.start()
+            viewModel.start()
 
-        setContentView(binding.root)
+
+            // Setup edge-to-edge display with proper WindowInsets handling
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                SystemBarUtils.setupEdgeToEdgeWithAutoTheming(this@AddTagActivity, root, null, null)
+            }
+
+            // Add minimal IME (keyboard) insets handling for dialog positioning
+            ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+                val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+                view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, imeInsets.bottom)
+                insets
+            }
+        }
+
     }
 
     private fun ActivityTagAddBinding.setupViews() {

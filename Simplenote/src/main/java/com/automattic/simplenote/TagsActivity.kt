@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityTagsBinding
 import com.automattic.simplenote.utils.*
+import com.automattic.simplenote.utils.SystemBarUtils
 import com.automattic.simplenote.viewmodels.TagsEvent
 import com.automattic.simplenote.viewmodels.TagsEvent.*
 import com.automattic.simplenote.viewmodels.TagsViewModel
@@ -36,6 +37,16 @@ class TagsActivity : ThemedAppCompatActivity() {
         binding.setObservers()
 
         viewModel.start()
+
+        // Setup edge-to-edge display with proper WindowInsets handling
+        // Use auto-theming to properly handle status bar appearance based on theme
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
+            this,
+            findViewById(R.id.main_parent_view),
+            toolbar,
+            binding.list
+        )
     }
 
     private fun ActivityTagsBinding.setupViews() {
@@ -61,6 +72,9 @@ class TagsActivity : ThemedAppCompatActivity() {
         buttonAdd.setOnLongClickListener {
             viewModel.longClickAddTag()
             true
+        }
+        buttonAdd.setOnApplyWindowInsetsListener { view, insets ->
+            DisplayUtils.applyWindowInsetsForFloatingActionButton(insets, resources, view)
         }
     }
 

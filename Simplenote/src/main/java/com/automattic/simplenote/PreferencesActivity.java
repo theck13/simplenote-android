@@ -2,6 +2,7 @@ package com.automattic.simplenote;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
 import com.automattic.simplenote.utils.BrowserUtils;
+import com.automattic.simplenote.utils.SystemBarUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
@@ -56,6 +58,15 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
             mPreferencesFragment = (PreferencesFragment) fragmentManager.findFragmentByTag(preferencesTag);
             mPasscodePreferenceFragment = (PasscodePreferenceFragmentCompat) fragmentManager.findFragmentByTag(passcodeTag);
         }
+
+        // Setup edge-to-edge display with proper WindowInsets handling
+        // Use auto-theming to properly handle status bar appearance based on theme
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
+            this,
+            findViewById(R.id.main_parent_view),
+            toolbar,
+            findViewById(R.id.preferences_container)
+        );
     }
 
     @Override

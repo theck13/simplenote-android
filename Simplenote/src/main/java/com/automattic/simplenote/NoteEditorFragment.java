@@ -82,6 +82,7 @@ import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.viewmodels.NoteEditorViewModel;
@@ -204,7 +205,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 DrawableUtils.tintMenuWithAttribute(getActivity(), menu, R.attr.toolbarIconColor);
             }
 
-            requireActivity().getWindow().setStatusBarColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.mainBackgroundColor));
+            SystemBarUtils.setStatusBarColor(requireActivity(), ThemeUtils.getColorFromAttribute(requireContext(), R.attr.mainBackgroundColor));
             return true;
         }
 
@@ -279,7 +280,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             new Handler().postDelayed(
-                    () -> requireActivity().getWindow().setStatusBarColor(
+                    () -> SystemBarUtils.setStatusBarColor(requireActivity(),
                             getResources().getColor(android.R.color.transparent, requireActivity().getTheme())),
                 requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
             );

@@ -41,7 +41,7 @@ android {
         versionCode versionProperties.getProperty("versionCode").toInteger()
 
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
     }
 
 
