@@ -109,7 +109,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation "tools.fastlane:screengrab:$screengrabVersion"
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:251-957eff99738fc5cb26c2851c22c6cd563598062a'
+    implementation 'com.automattic:simperium:v1.4.0'
     implementation "com.automattic:Automattic-Tracks-Android:$automatticTracksVersion"
     implementation "com.automattic.tracks:crashlogging:$automatticTracksVersion"
 
