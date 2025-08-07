@@ -128,6 +128,10 @@
     <color name="text_title_light">@color/gray_80</color>
     <color name="text_button_red">@color/red_50</color>
 
+    <!-- STANDALONE CLARIFICATION TEXT -->
+    <color name="text_description">@color/gray_80</color>
+    <color name="text_description_secondary">@color/gray_50</color>
+
     <!-- SIMPERIUM -->
     <color name="background_button_disabled">@color/gray_20</color>
     <color name="background_button_primary">@color/simplenote_blue_50</color>
