@@ -329,4 +329,10 @@
         <item name="android:backgroundTint">@color/background_dark_sepia_8</item>
     </style>
 
+    <!-- Dark mode variant of SignUpOverride theme -->
+    <style name="SignUpOverride" parent="Theme.Simplestyle">
+        <item name="mainBackgroundColor">@color/background_dark</item>
+        <item name="onMainBackgroundColor">@android:color/white</item>
+    </style>
+
 </resources>

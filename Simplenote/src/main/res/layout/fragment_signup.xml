@@ -41,7 +41,7 @@
         android:minHeight="@dimen/height_button"
         android:text="@string/simperium_button_signup"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/text_button_primary" />
 
     <TextView
         android:id="@+id/text_footer"

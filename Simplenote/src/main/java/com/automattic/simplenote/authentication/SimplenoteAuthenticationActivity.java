@@ -70,7 +70,10 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
         // Since this extends Simperium's AuthenticationActivity, we need to be conservative
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-            SystemBarUtils.setSystemBarsAppearance(this, true, true); // Dark icons on light background
+            // Use auto-theming to properly handle dark mode
+            boolean isLightTheme = (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) 
+                != android.content.res.Configuration.UI_MODE_NIGHT_YES;
+            SystemBarUtils.setSystemBarsAppearance(this, isLightTheme, isLightTheme);
             
             // Apply navigation bar insets to avoid button overlap with 3-button navigation
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, windowInsets) -> {

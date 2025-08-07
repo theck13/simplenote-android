@@ -23,4 +23,13 @@
     <color name="style_preview_default_content">@color/text_content_dark</color>
     <color name="style_preview_default_title">@color/text_title_dark</color>
     <color name="text_button_red">@color/red_20</color>
+
+    <!-- STANDALONE CLARIFICATION TEXT -->
+    <color name="text_description">@color/gray_20</color>
+    <color name="text_description_secondary">@color/gray_30</color>
+
+    <!-- Button text colors for dark theme -->
+    <color name="text_button_primary">@color/gray_1</color>
+    <color name="text_button_secondary">@color/gray_1</color>
+
 </resources>

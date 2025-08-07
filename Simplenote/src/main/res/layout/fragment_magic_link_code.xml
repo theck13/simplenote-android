@@ -72,6 +72,6 @@
         android:minHeight="@dimen/height_button"
         android:text="@string/magic_link_confirm_code_enter_pass_label"
         android:textAllCaps="true"
-        android:textColor="@android:color/black"/>
+        android:textColor="@color/text_button_tertiary"/>
 
 </LinearLayout>

@@ -48,14 +48,12 @@ public class SimplenoteSignupActivity extends AppCompatActivity {
         initToolbar(isSignUp);
         
         // Setup edge-to-edge display with proper WindowInsets handling
-        // Toolbar has white background, so we need light status bar appearance (dark icons)
-        SystemBarUtils.setupEdgeToEdgeWithToolbar(
+        // Use auto-theming to properly handle status bar appearance based on theme
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(
             this,
             findViewById(R.id.main),
             mToolbar,
-            findViewById(R.id.fragment_container),
-            true, // Light status bar (dark icons) for white toolbar background
-            true  // Light navigation bar (dark icons)
+            findViewById(R.id.fragment_container)
         );
     }
 
