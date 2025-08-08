@@ -33,7 +33,7 @@ import com.automattic.simplenote.utils.AppLog
 import com.automattic.simplenote.utils.HtmlCompat
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment
 import com.automattic.simplenote.utils.SystemBarUtils
-import com.google.android.material.color.MaterialColors
+import com.automattic.simplenote.utils.getColorStr
 import com.google.android.material.textfield.TextInputLayout
 import com.simperium.Simperium
 import com.simperium.SimperiumNotInitializedException
@@ -156,8 +156,7 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
                 missingEmailMessage?.visibility = View.VISIBLE
                 inputEmail?.visibility = View.GONE
 
-                val colorLink: String =
-                    Integer.toHexString(MaterialColors.getColor(missingEmailMessage!!, R.attr.onMainBackgroundColor) and 16777215)
+                val colorLink = getColorStr(R.color.text_link)
                 val boldEmail = "<b><font color=\"#${colorLink}\">${email}<font/></b>"
                 missingEmailMessage?.text = HtmlCompat.fromHtml(
                     String.format(
