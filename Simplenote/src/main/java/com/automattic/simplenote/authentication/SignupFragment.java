@@ -29,8 +29,8 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
-import com.simperium.android.ProgressDialogFragment;
 import com.simperium.util.Logger;
 
 import org.json.JSONException;
@@ -59,7 +59,7 @@ public class SignupFragment extends Fragment {
     private static final MediaType JSON_MEDIA_TYPE =
         MediaType.parse("application/json; charset=utf-8");
 
-    private ProgressDialogFragment progressDialogFragment;
+    private SimplenoteProgressDialogFragment progressDialogFragment;
 
     @Nullable
     @Override
@@ -117,9 +117,9 @@ public class SignupFragment extends Fragment {
 
     private void showProgressDialog() {
         progressDialogFragment =
-            ProgressDialogFragment.newInstance(getString(R.string.simperium_dialog_progress_signing_up));
+                SimplenoteProgressDialogFragment.newInstance(getString(R.string.simperium_dialog_progress_signing_up));
         progressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
-        progressDialogFragment.show(requireFragmentManager(), ProgressDialogFragment.TAG);
+        progressDialogFragment.show(requireFragmentManager(), SimplenoteProgressDialogFragment.TAG);
     }
 
     private void hideDialogProgress() {

@@ -31,13 +31,13 @@ import com.automattic.simplenote.utils.AccountNetworkUtils
 import com.automattic.simplenote.utils.AccountVerificationEmailHandler
 import com.automattic.simplenote.utils.AppLog
 import com.automattic.simplenote.utils.HtmlCompat
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment
 import com.automattic.simplenote.utils.SystemBarUtils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.textfield.TextInputLayout
 import com.simperium.Simperium
 import com.simperium.SimperiumNotInitializedException
 import com.simperium.android.CredentialsActivity
-import com.simperium.android.ProgressDialogFragment
 import com.simperium.client.AuthException
 import com.simperium.client.AuthException.FailureType
 import com.simperium.client.AuthProvider
@@ -56,7 +56,7 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
         const val PASSWORD_LENGTH_LOGIN: Int = 4
         const val PASSWORD_LENGTH_MINIMUM: Int = 8
     }
-    private var progressDialogFragment: ProgressDialogFragment? = null
+    private var progressDialogFragment: SimplenoteProgressDialogFragment? = null
     private var button: AppCompatButton? = null
     private var simperium: Simperium? = null
     private var missingEmailMessage: TextView? = null
@@ -489,8 +489,8 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
         val password = this.getEditTextString(inputPassword!!)
         if (this.isValidPasswordLogin()) {
             this.progressDialogFragment =
-                ProgressDialogFragment.newInstance(this.getString(R.string.simperium_dialog_progress_logging_in))
-            progressDialogFragment?.show(this.supportFragmentManager, ProgressDialogFragment.TAG)
+                SimplenoteProgressDialogFragment.newInstance(this.getString(R.string.simperium_dialog_progress_logging_in))
+            progressDialogFragment?.show(this.supportFragmentManager, SimplenoteProgressDialogFragment.TAG)
             simperium?.authorizeUser(email, password, this.authListener)
         } else {
             this.showDialogError(this.getString(R.string.simperium_dialog_message_password_login, PASSWORD_LENGTH_LOGIN))
@@ -501,10 +501,10 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
         val email = this.getEditTextString(inputEmail)
         val password = this.getEditTextString(inputPassword)
         if (this.isValidPassword(email, password)) {
-            this.progressDialogFragment = ProgressDialogFragment.newInstance(
+            this.progressDialogFragment = SimplenoteProgressDialogFragment.newInstance(
                 this.getString(R.string.simperium_dialog_progress_signing_up)
             )
-            progressDialogFragment?.show(this.supportFragmentManager, ProgressDialogFragment.TAG)
+            progressDialogFragment?.show(this.supportFragmentManager, SimplenoteProgressDialogFragment.TAG)
             simperium?.createUser(email, password, this.authListener)
         } else {
             this.showDialogError(this.getString(R.string.simperium_dialog_message_password, PASSWORD_LENGTH_MINIMUM))

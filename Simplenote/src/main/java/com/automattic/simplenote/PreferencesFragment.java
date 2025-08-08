@@ -56,7 +56,6 @@ import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
 import com.simperium.Simperium;
-import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.BucketObjectNameInvalid;
@@ -397,7 +396,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         }
 
         mProgressDialogFragment = SimplenoteProgressDialogFragment.newInstance(getString(R.string.requesting_message));
-        mProgressDialogFragment.show(activity.getSupportFragmentManager(), ProgressDialogFragment.TAG);
+        mProgressDialogFragment.show(activity.getSupportFragmentManager(), SimplenoteProgressDialogFragment.TAG);
     }
 
     private void closeProgressDialogDeleteAccount() {

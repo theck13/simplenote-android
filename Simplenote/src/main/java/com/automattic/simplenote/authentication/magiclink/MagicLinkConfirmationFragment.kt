@@ -18,9 +18,9 @@ import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.authentication.SignInFragment
 import com.automattic.simplenote.utils.HtmlCompat
 import com.automattic.simplenote.utils.NetworkUtils
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment
 import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel
 import com.automattic.simplenote.viewmodels.MagicLinkUiState
-import com.simperium.android.ProgressDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class MagicLinkConfirmationFragment : Fragment() {
 
     @Inject lateinit var simplenote: Simplenote
 
-    private var progressDialogFragment: ProgressDialogFragment? = null
+    private var progressDialogFragment: SimplenoteProgressDialogFragment? = null
 
     private var codeEditText: EditText? = null
     private var actionCodeButton: Button? = null
@@ -124,9 +124,9 @@ class MagicLinkConfirmationFragment : Fragment() {
 
     private fun showProgressDialog(label: String) {
         progressDialogFragment =
-            ProgressDialogFragment.newInstance(label)
+            SimplenoteProgressDialogFragment.newInstance(label)
         progressDialogFragment?.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium)
-        progressDialogFragment?.show(requireFragmentManager(), ProgressDialogFragment.TAG)
+        progressDialogFragment?.show(requireFragmentManager(), SimplenoteProgressDialogFragment.TAG)
     }
 
     private fun hideDialogProgress() {
