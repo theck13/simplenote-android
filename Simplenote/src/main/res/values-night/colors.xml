@@ -24,10 +24,6 @@
     <color name="style_preview_default_title">@color/text_title_dark</color>
     <color name="text_button_red">@color/red_20</color>
 
-    <!-- STANDALONE CLARIFICATION TEXT -->
-    <color name="text_description">@color/gray_20</color>
-    <color name="text_description_secondary">@color/gray_30</color>
-
     <!-- SIMPERIUM -->
     <color name="background">@color/background_dark</color>
     <color name="background_button_disabled">@color/gray_50</color>
