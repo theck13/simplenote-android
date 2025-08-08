@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default_quarter"
         android:hint="@string/magic_link_code_hint"
+        android:theme="@style/TextInput"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText

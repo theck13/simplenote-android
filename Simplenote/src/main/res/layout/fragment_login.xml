@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default_quarter"
         android:hint="@string/simperium_hint_email"
+        android:theme="@style/TextInput"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
