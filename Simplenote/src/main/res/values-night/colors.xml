@@ -3,6 +3,7 @@
 <resources>
 
     <!-- SEMANTIC -->
+    <color name="authentication_logo">@color/simplenote_blue_20</color>
     <color name="background_list_black_activated">@color/background_dark_black_8</color>
     <color name="background_list_black_ripple">@color/background_dark_black_2</color>
     <color name="background_list_classic_activated">@color/blue_70</color>
