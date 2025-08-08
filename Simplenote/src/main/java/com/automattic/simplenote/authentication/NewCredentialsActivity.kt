@@ -26,6 +26,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.automattic.simplenote.R
+import com.automattic.simplenote.ThemedAppCompatActivity
 import com.automattic.simplenote.utils.AccountNetworkUtils
 import com.automattic.simplenote.utils.AccountVerificationEmailHandler
 import com.automattic.simplenote.utils.AppLog
@@ -48,7 +49,7 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import java.util.regex.Pattern
 
-open class NewCredentialsActivity : AppCompatActivity() {
+open class NewCredentialsActivity : ThemedAppCompatActivity() {
     companion object {
         val PATTERN_NEWLINES_RETURNS_TABS: Pattern = Pattern.compile("[\n\r\t]")
         const val PREF_HIDE_EMAIL_FIELD: String = "pref_hide_email_field"
