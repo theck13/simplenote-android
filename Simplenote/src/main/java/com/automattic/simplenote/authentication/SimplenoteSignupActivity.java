@@ -11,13 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.automattic.simplenote.R;
+import com.automattic.simplenote.ThemedAppCompatActivity;
 import com.automattic.simplenote.authentication.magiclink.MagicLinkConfirmationFragment;
 import com.automattic.simplenote.utils.SystemBarUtils;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SimplenoteSignupActivity extends AppCompatActivity {
+public class SimplenoteSignupActivity extends ThemedAppCompatActivity {
     public final static String SIGNUP_FRAGMENT_TAG = "signup";
 
     // Used to differentiate between sign in and sign up in the sign in activity
@@ -46,7 +47,7 @@ public class SimplenoteSignupActivity extends AppCompatActivity {
         final boolean isSignUp = !getIntent().getBooleanExtra(KEY_IS_LOGIN, false);
         initContainer(isSignUp);
         initToolbar(isSignUp);
-        
+
         // Setup edge-to-edge display with proper WindowInsets handling
         // Use auto-theming to properly handle status bar appearance based on theme
         SystemBarUtils.setupEdgeToEdgeWithAutoTheming(

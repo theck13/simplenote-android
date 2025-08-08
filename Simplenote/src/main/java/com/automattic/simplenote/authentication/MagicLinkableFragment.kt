@@ -14,15 +14,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.automattic.simplenote.R
 import com.automattic.simplenote.authentication.magiclink.MagicLinkConfirmationFragment
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment
 import com.google.android.material.textfield.TextInputLayout
-import com.simperium.android.ProgressDialogFragment
 
 /**
  * Base class used to share logic between sign up and login, specifically related to magic links.
  */
 abstract class MagicLinkableFragment : Fragment() {
 
-    private var progressDialogFragment: ProgressDialogFragment? = null
+    private var progressDialogFragment: SimplenoteProgressDialogFragment? = null
 
     private var emailField: EditText? = null
 
@@ -92,17 +92,17 @@ abstract class MagicLinkableFragment : Fragment() {
     }
 
     fun showProgressDialog(label: String) {
-        val existingProgressFrag = parentFragmentManager.findFragmentByTag(ProgressDialogFragment.TAG)
+        val existingProgressFrag = parentFragmentManager.findFragmentByTag(SimplenoteProgressDialogFragment.TAG)
         if (existingProgressFrag == null) {
             progressDialogFragment =
-                ProgressDialogFragment.newInstance(label)
+                SimplenoteProgressDialogFragment.newInstance(label)
             progressDialogFragment?.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium)
-            progressDialogFragment?.show(requireFragmentManager(), ProgressDialogFragment.TAG)
+            progressDialogFragment?.show(requireFragmentManager(), SimplenoteProgressDialogFragment.TAG)
         }
     }
 
     protected fun hideDialogProgress() {
-        val existingProgressFrag = progressDialogFragment ?: (parentFragmentManager.findFragmentByTag(ProgressDialogFragment.TAG) as ProgressDialogFragment?)
+        val existingProgressFrag = progressDialogFragment ?: (parentFragmentManager.findFragmentByTag(SimplenoteProgressDialogFragment.TAG) as SimplenoteProgressDialogFragment?)
         existingProgressFrag?.let {
             if (!it.isHidden) {
                 it.dismiss()

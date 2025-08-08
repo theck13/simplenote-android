@@ -3,6 +3,7 @@
 <resources>
 
     <!-- SEMANTIC -->
+    <color name="authentication_logo">@color/simplenote_blue_20</color>
     <color name="background_list_black_activated">@color/background_dark_black_8</color>
     <color name="background_list_black_ripple">@color/background_dark_black_2</color>
     <color name="background_list_classic_activated">@color/blue_70</color>
@@ -24,12 +25,17 @@
     <color name="style_preview_default_title">@color/text_title_dark</color>
     <color name="text_button_red">@color/red_20</color>
 
-    <!-- STANDALONE CLARIFICATION TEXT -->
-    <color name="text_description">@color/gray_20</color>
-    <color name="text_description_secondary">@color/gray_30</color>
-
-    <!-- Button text colors for dark theme -->
-    <color name="text_button_primary">@color/gray_1</color>
-    <color name="text_button_secondary">@color/gray_1</color>
+    <!-- SIMPERIUM -->
+    <color name="background">@color/background_dark</color>
+    <color name="background_button_disabled">@color/gray_50</color>
+    <color name="background_button_primary">@color/simplenote_blue_20</color>
+    <color name="background_button_secondary">@color/wordpress_blue_20</color>
+    <color name="text_button_disabled">@color/gray_50</color>
+    <color name="text_button_primary">@color/gray_100</color>
+    <color name="text_button_secondary">@color/gray_100</color>
+    <color name="text_button_tertiary">@color/simplenote_blue_10</color>
+    <color name="text_link">@color/simplenote_blue_20</color>
+    <color name="text_subtitle">@android:color/white</color>
+    <color name="text_title">@android:color/white</color>
 
 </resources>

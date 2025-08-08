@@ -55,6 +55,7 @@
     <color name="passcodelock_prompt_text_color">@android:color/white</color>
 
     <!-- SEMANTIC -->
+    <color name="authentication_logo">@color/simplenote_blue_50</color>
     <color name="background_dark">@color/background_dark_1</color>
     <color name="background_dark_highlight">@color/background_dark_8</color>
     <color name="background_dark_highlight_drawer">#4d5152</color>
@@ -128,11 +129,8 @@
     <color name="text_title_light">@color/gray_80</color>
     <color name="text_button_red">@color/red_50</color>
 
-    <!-- STANDALONE CLARIFICATION TEXT -->
-    <color name="text_description">@color/gray_80</color>
-    <color name="text_description_secondary">@color/gray_50</color>
-
     <!-- SIMPERIUM -->
+    <color name="background">@color/background_light</color>
     <color name="background_button_disabled">@color/gray_20</color>
     <color name="background_button_primary">@color/simplenote_blue_50</color>
     <color name="background_button_secondary">@color/wordpress_blue_50</color>

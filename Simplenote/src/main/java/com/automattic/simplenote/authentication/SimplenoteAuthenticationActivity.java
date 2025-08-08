@@ -24,13 +24,13 @@ import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.utils.IntentUtils;
+import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
 import com.automattic.simplenote.viewmodels.MagicLinkUiState;
 import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel;
 import com.simperium.android.AuthenticationActivity;
-import com.simperium.android.ProgressDialogFragment;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -65,20 +65,20 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // Setup edge-to-edge display only on Android 15+ to avoid breaking existing theming
         // Since this extends Simperium's AuthenticationActivity, we need to be conservative
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
             // Use auto-theming to properly handle dark mode
-            boolean isLightTheme = (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) 
+            boolean isLightTheme = (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK)
                 != android.content.res.Configuration.UI_MODE_NIGHT_YES;
             SystemBarUtils.setSystemBarsAppearance(this, isLightTheme, isLightTheme);
-            
+
             // Apply navigation bar insets to avoid button overlap with 3-button navigation
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, windowInsets) -> {
                 Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-                
+
                 // Apply bottom padding to avoid navigation bar overlap
                 v.setPadding(
                     v.getPaddingLeft(),
@@ -86,13 +86,13 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
                     v.getPaddingRight(),
                     systemBars.bottom
                 );
-                
+
                 return WindowInsetsCompat.CONSUMED;
             });
         }
 
         final Intent intent = getIntent();
-        
+
         final boolean isMagicLink = intent.getBooleanExtra(KEY_IS_MAGIC_LINK, false);
         final String authKey = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_KEY);
         final String authCode = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_CODE);
@@ -245,24 +245,24 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     }
 
     private void showLoadingDialog(@StringRes int stringRes) {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(ProgressDialogFragment.TAG);
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(SimplenoteProgressDialogFragment.TAG);
         if (fragment == null) {
-            final ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(getString(stringRes));
+            final SimplenoteProgressDialogFragment progressDialogFragment = SimplenoteProgressDialogFragment.newInstance(getString(stringRes));
             progressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
-            progressDialogFragment.show(getSupportFragmentManager(), ProgressDialogFragment.TAG);
+            progressDialogFragment.show(getSupportFragmentManager(), SimplenoteProgressDialogFragment.TAG);
         }
     }
 
     private void hideDialog() {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(ProgressDialogFragment.TAG);
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(SimplenoteProgressDialogFragment.TAG);
         if (fragment != null) {
             try {
-                final ProgressDialogFragment progressDialogFragment = (ProgressDialogFragment) fragment;
+                final SimplenoteProgressDialogFragment progressDialogFragment = (SimplenoteProgressDialogFragment) fragment;
                 if (!progressDialogFragment.isHidden()) {
                     progressDialogFragment.dismiss();
                 }
             } catch (final ClassCastException e) {
-                Log.e(TAG, "We have a class other than ProgressDialogFragment", e);
+                Log.e(TAG, "We have a class other than SimplenoteProgressDialogFragment", e);
             }
         }
     }
