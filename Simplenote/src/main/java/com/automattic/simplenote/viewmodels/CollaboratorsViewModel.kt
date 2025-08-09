@@ -9,7 +9,6 @@ import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -70,6 +69,10 @@ class CollaboratorsViewModel @Inject constructor(
         _event.value = Event.RemoveCollaboratorEvent(collaborator)
     }
 
+    fun longClickRemoveCollaborator() {
+        _event.postValue(Event.LongRemoveCollaboratorEvent)
+    }
+
     fun close() {
         _event.value = Event.CloseCollaboratorsEvent
     }
@@ -107,6 +110,7 @@ class CollaboratorsViewModel @Inject constructor(
         data class AddCollaboratorEvent(val noteId: String) : Event()
         object CloseCollaboratorsEvent : Event()
         object LongAddCollaboratorEvent : Event()
+        object LongRemoveCollaboratorEvent : Event()
         data class RemoveCollaboratorEvent(val collaborator: String) : Event()
     }
 }

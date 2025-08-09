@@ -10,6 +10,7 @@ import com.automattic.simplenote.databinding.CollaboratorsHeaderBinding
 
 class CollaboratorsAdapter(
     private val onDeleteClick: (collaborator: String) -> Unit,
+    private val onDeleteLongClick: () -> Unit,
 ) : ListAdapter<CollaboratorsAdapter.CollaboratorDataItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -20,7 +21,7 @@ class CollaboratorsAdapter(
             }
             ITEM_VIEW_TYPE_ITEM -> {
                 val binding = CollaboratorRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                CollaboratorViewHolder(binding, onDeleteClick)
+                CollaboratorViewHolder(binding, onDeleteClick, onDeleteLongClick)
             }
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -55,12 +56,17 @@ class CollaboratorsAdapter(
 
     class CollaboratorViewHolder(
         private val binding: CollaboratorRowBinding,
-        private val onDeleteClick: (collaborator: String) -> Unit
+        private val onDeleteClick: (collaborator: String) -> Unit,
+        private val onDeleteLongClick: () -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(collaborator: CollaboratorDataItem.CollaboratorItem) {
             binding.collaboratorText.text = collaborator.email
             binding.collaboratorRemoveButton.setOnClickListener { onDeleteClick(collaborator.email) }
+            binding.collaboratorRemoveButton.setOnLongClickListener {
+                onDeleteLongClick()
+                true
+            }
         }
     }
 
