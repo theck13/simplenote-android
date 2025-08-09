@@ -151,7 +151,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun lonClickAddTagShouldTriggerLongAddTagEvent() {
+    fun longClickAddTagShouldTriggerLongAddTagEvent() {
         viewModel.longClickAddTag()
 
         assertEquals(viewModel.event.value, TagsEvent.LongAddTagEvent)
