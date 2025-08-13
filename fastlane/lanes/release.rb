@@ -60,11 +60,14 @@ platform :android do
       set_upstream: is_ci == false # only set upstream when running locally, useless in transient CI builds
     )
 
+    # Copy the branch protection settings from the default branch to the new release branch
     copy_branch_protection(
       repository: GITHUB_REPO,
       from_branch: DEFAULT_BRANCH,
       to_branch: computed_release_branch_name
     )
+    # But allow admins to bypass restrictions, so that wpmobilebot can push to the release branch directly for beta version bumps
+    set_branch_protection(repository: GITHUB_REPO, branch: computed_release_branch_name, enforce_admins: false)
 
     freeze_milestone_and_move_assigned_prs_to_next_milestone(
       milestone_to_freeze: new_version_final,
