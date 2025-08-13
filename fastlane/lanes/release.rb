@@ -67,7 +67,7 @@ platform :android do
       to_branch: computed_release_branch_name
     )
     # But allow admins to bypass restrictions, so that wpmobilebot can push to the release branch directly for beta version bumps
-    set_branch_protection(branch: computed_release_branch_name, enforce_admins: false)
+    set_branch_protection(repository: GITHUB_REPO, branch: computed_release_branch_name, enforce_admins: false)
 
     freeze_milestone_and_move_assigned_prs_to_next_milestone(
       milestone_to_freeze: new_version_final,
