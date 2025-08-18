@@ -7,6 +7,7 @@ import com.automattic.simplenote.repositories.CollaboratorsRepository
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -15,6 +16,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.stub
 import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
@@ -27,7 +30,14 @@ class CollaboratorsViewModelTest {
     private val mockCollaboratorsRepository = mock(CollaboratorsRepository::class.java)
     private val viewModel = CollaboratorsViewModel(mockCollaboratorsRepository)
 
-    private val noteId = "key1"
+    private val collaboratorFoo = "foo@email.com"
+    private val collaboratorBar = "bar@em.co.de"
+    private val collaboratorBaz = "baz@e.c"
+    private val collaborators = listOf(
+        collaboratorFoo,
+        collaboratorBar,
+    )
+    private val noteId = "key123"
 
     @Before
     fun setup() = runTest {
@@ -191,5 +201,116 @@ class CollaboratorsViewModelTest {
         viewModel.startListeningChanges()
 
         assertEquals(UiState.CollaboratorsList(expectedList), viewModel.uiState.value)
+    }
+
+    @Test
+    fun closeSearchShouldCleanQuery() = runTest {
+        viewModel.loadCollaborators(noteId)
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        mockCollaboratorsRepository.stub {
+            onBlocking { collaboratorsChanged(noteId) }.doReturn(emptyFlow())
+        }
+        viewModel.startListeningChanges()
+        viewModel.closeSearch()
+
+        assertEquals(UiState.CollaboratorsList(collaborators), viewModel.uiState.value)
+    }
+
+    @Test
+    fun removeAllCollaboratorsDuringSearchShouldReturnAllRemoved() = runTest {
+        viewModel.loadCollaborators(noteId)
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        mockCollaboratorsRepository.stub {
+            onBlocking { collaboratorsChanged(noteId) }.doReturn(emptyFlow())
+        }
+        viewModel.startListeningChanges()
+
+        val returnedList = listOf(collaboratorBar)
+        val searchQuery = "@"
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId, searchQuery) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        viewModel.search(searchQuery)
+        mockCollaboratorsRepository.stub {
+            onBlocking { removeCollaborator(noteId, collaboratorFoo) }.doReturn(CollaboratorsActionResult.CollaboratorsList(returnedList))
+        }
+        viewModel.removeCollaborator(collaboratorFoo)
+        mockCollaboratorsRepository.stub {
+            onBlocking { removeCollaborator(noteId, collaboratorBar) }.doReturn(CollaboratorsActionResult.CollaboratorsList(emptyList()))
+        }
+        viewModel.removeCollaborator(collaboratorBar)
+
+        assertEquals(UiState.EmptyCollaborators(allCollaboratorsRemoved = true), viewModel.uiState.value)
+    }
+
+    @Test
+    fun removeOneCollaboratorDuringSearchShouldNotReturnAllRemoved() = runTest {
+        viewModel.loadCollaborators(noteId)
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        mockCollaboratorsRepository.stub {
+            onBlocking { collaboratorsChanged(noteId) }.doReturn(emptyFlow())
+        }
+        viewModel.startListeningChanges()
+
+        val returnedList = listOf(collaboratorBar)
+        val searchQuery = "@"
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId, searchQuery) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        viewModel.search(searchQuery)
+        mockCollaboratorsRepository.stub {
+            onBlocking { removeCollaborator(noteId, collaboratorFoo) }.doReturn(CollaboratorsActionResult.CollaboratorsList(returnedList))
+        }
+        viewModel.removeCollaborator(collaboratorFoo)
+
+        assertEquals(UiState.CollaboratorsList(returnedList), viewModel.uiState.value)
+    }
+
+    @Test
+    fun searchShouldFilterCollaborators() = runTest {
+        viewModel.loadCollaborators(noteId)
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        mockCollaboratorsRepository.stub {
+            onBlocking { collaboratorsChanged(noteId) }.doReturn(emptyFlow())
+        }
+        viewModel.startListeningChanges()
+
+        val collaborator = collaborators[0]
+        val filteredList = listOf(collaborator)
+        val searchQuery = collaborator.substringBefore("@")
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId, searchQuery) }.doReturn(CollaboratorsActionResult.CollaboratorsList(filteredList))
+        }
+        viewModel.search(searchQuery)
+
+        assertEquals(UiState.CollaboratorsList(filteredList, true, searchQuery), viewModel.uiState.value)
+    }
+
+    @Test
+    fun searchShouldShowNoCollaboratorsForUniqueQuery() = runTest {
+        viewModel.loadCollaborators(noteId)
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId) }.doReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
+        }
+        mockCollaboratorsRepository.stub {
+            onBlocking { collaboratorsChanged(noteId) }.doReturn(emptyFlow())
+        }
+        viewModel.startListeningChanges()
+
+        val searchQuery = "d34db33f"
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId, searchQuery) }.doReturn(CollaboratorsActionResult.CollaboratorsList(emptyList()))
+        }
+        viewModel.search(searchQuery)
+
+        assertEquals(UiState.EmptyCollaborators(allCollaboratorsRemoved = false, searchUpdate = true), viewModel.uiState.value)
     }
 }
