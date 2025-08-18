@@ -34,7 +34,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     private suspend fun updateUiState(noteId: String, searchUpdate: Boolean = false, searchQuery: String? = null) {
-        when (val result = collaboratorsRepository.getCollaborators(noteId)) {
+        when (val result = collaboratorsRepository.getCollaborators(noteId, searchQuery)) {
             is CollaboratorsActionResult.CollaboratorsList ->
                 _uiState.value = when (result.collaborators.isEmpty()) {
                     true -> UiState.EmptyCollaborators(allCollaboratorsRemoved = searchQuery.isNullOrEmpty(), searchUpdate)
