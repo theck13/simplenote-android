@@ -77,6 +77,18 @@ class CollaboratorsViewModel @Inject constructor(
         _event.value = Event.CloseCollaboratorsEvent
     }
 
+    fun closeSearch() {
+        viewModelScope.launch {
+            updateUiState(noteId, searchUpdate = false)
+        }
+    }
+
+    fun search(searchQuery: String) {
+        viewModelScope.launch {
+            updateUiState(noteId, searchUpdate = true, searchQuery)
+        }
+    }
+
     fun removeCollaborator(collaborator: String) {
         viewModelScope.launch {
             when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
