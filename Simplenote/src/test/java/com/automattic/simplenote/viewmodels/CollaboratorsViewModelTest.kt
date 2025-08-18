@@ -42,14 +42,14 @@ class CollaboratorsViewModelTest {
     @Before
     fun setup() = runTest {
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
-            .thenReturn(CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp")))
+            .thenReturn(CollaboratorsActionResult.CollaboratorsList(collaborators))
     }
 
     @Test
     fun loadCollaboratorsShouldUpdateUiStateWithList() = runTest {
         viewModel.loadCollaborators(noteId)
 
-        val expectedCollaborators = UiState.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
+        val expectedCollaborators = UiState.CollaboratorsList(collaborators)
         assertEquals(expectedCollaborators, viewModel.uiState.value)
     }
 
@@ -86,22 +86,22 @@ class CollaboratorsViewModelTest {
     @Test
     fun removeCollaboratorShouldReturnListEmails() = runTest {
         viewModel.loadCollaborators(noteId)
-        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
-            .thenReturn(CollaboratorsActionResult.CollaboratorsList(listOf("name@example.co.jp")))
+        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, collaboratorFoo))
+            .thenReturn(CollaboratorsActionResult.CollaboratorsList(listOf(collaboratorBar)))
 
-        viewModel.removeCollaborator("test@emil.com")
+        viewModel.removeCollaborator(collaboratorFoo)
 
-        val expectedCollaborators = UiState.CollaboratorsList(listOf("name@example.co.jp"))
+        val expectedCollaborators = UiState.CollaboratorsList(listOf(collaboratorBar))
         assertEquals(expectedCollaborators, viewModel.uiState.value)
     }
 
     @Test
     fun removeLastCollaboratorShouldReturnEmpty() = runTest {
         viewModel.loadCollaborators(noteId)
-        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
+        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, collaboratorFoo))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(emptyList()))
 
-        viewModel.removeCollaborator("test@emil.com")
+        viewModel.removeCollaborator(collaboratorFoo)
 
         assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
     }
@@ -109,10 +109,10 @@ class CollaboratorsViewModelTest {
     @Test
     fun removeCollaboratorForNoteInTrashShouldTriggerEvent() = runTest {
         viewModel.loadCollaborators(noteId)
-        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
+        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, collaboratorFoo))
             .thenReturn(CollaboratorsActionResult.NoteInTrash)
 
-        viewModel.removeCollaborator("test@emil.com")
+        viewModel.removeCollaborator(collaboratorFoo)
 
         assertEquals(UiState.NoteInTrash, viewModel.uiState.value)
     }
@@ -120,10 +120,10 @@ class CollaboratorsViewModelTest {
     @Test
     fun removeCollaboratorForNoteDeletedShouldTriggerEvent() = runTest {
         viewModel.loadCollaborators(noteId)
-        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
+        whenever(mockCollaboratorsRepository.removeCollaborator(noteId, collaboratorFoo))
             .thenReturn(CollaboratorsActionResult.NoteDeleted)
 
-        viewModel.removeCollaborator("test@emil.com")
+        viewModel.removeCollaborator(collaboratorFoo)
 
         assertEquals(UiState.NoteDeleted, viewModel.uiState.value)
     }
@@ -146,7 +146,7 @@ class CollaboratorsViewModelTest {
 
     @Test
     fun clickRemoveCollaboratorShouldTriggerEventAddCollaborator() {
-        val collaborator = "test@emil.com"
+        val collaborator = collaboratorFoo
         viewModel.clickRemoveCollaborator(collaborator)
 
         assertEquals(Event.RemoveCollaboratorEvent(collaborator), viewModel.event.value)
@@ -182,7 +182,7 @@ class CollaboratorsViewModelTest {
         // Now mock the flow to emit changes and mock getCollaborators to return a different list
         // This simulates collaborators being added after we stopped listening
         whenever(mockCollaboratorsRepository.collaboratorsChanged(noteId)).thenReturn(flow { emit(true) })
-        val newList = listOf("test@emil.com", "name@example.co.jp", "new@email.com")
+        val newList = collaborators + collaboratorBaz
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(newList))
 
@@ -194,7 +194,7 @@ class CollaboratorsViewModelTest {
     fun collaboratorAddedShouldUpdateUiState() = runTest {
         viewModel.loadCollaborators(noteId)
         whenever(mockCollaboratorsRepository.collaboratorsChanged(noteId)).thenReturn(flow { emit(true) })
-        val expectedList = listOf("test@emil.com", "name@example.co.jp", "test2@email.com")
+        val expectedList = collaborators + collaboratorBaz
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(expectedList))
 
