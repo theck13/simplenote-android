@@ -24,7 +24,7 @@ class CollaboratorsViewModel @Inject constructor(
 
     private lateinit var noteId: String
 
-    private var jobTagsFlow: Job? = null
+    private var jobCollaborators: Job? = null
 
     fun loadCollaborators(noteId: String) {
         this.noteId = noteId
@@ -46,7 +46,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun startListeningChanges() {
-        jobTagsFlow = viewModelScope.launch {
+        jobCollaborators = viewModelScope.launch {
             collaboratorsRepository.collaboratorsChanged(noteId).collect {
                 updateUiState(noteId)
             }
@@ -54,7 +54,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun stopListeningChanges() {
-        jobTagsFlow?.cancel()
+        jobCollaborators?.cancel()
     }
 
     fun clickAddCollaborator() {
