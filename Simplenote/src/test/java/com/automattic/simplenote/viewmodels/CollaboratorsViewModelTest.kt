@@ -60,7 +60,7 @@ class CollaboratorsViewModelTest {
 
         viewModel.loadCollaborators(noteId)
 
-        assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
+        assertEquals(UiState.EmptyCollaborators(allCollaboratorsRemoved = true), viewModel.uiState.value)
     }
 
     @Test
@@ -103,7 +103,7 @@ class CollaboratorsViewModelTest {
 
         viewModel.removeCollaborator(collaboratorFoo)
 
-        assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
+        assertEquals(UiState.EmptyCollaborators(allCollaboratorsRemoved = true), viewModel.uiState.value)
     }
 
     @Test
