@@ -1371,8 +1371,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onHistoryDismissed() {
-        if (!mHistoryBottomSheet.didTapOnButton()) {
-            mContentEditText.setText(mNote.getContent());
+        if (mHistoryBottomSheet != null) {
+            if (!mHistoryBottomSheet.didTapOnButton()) {
+                mContentEditText.setText(mNote.getContent());
+            }
+
+            mHistoryBottomSheet.dismiss();
         }
 
         if (mHistoryTimeoutHandler != null) {
