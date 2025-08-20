@@ -1346,7 +1346,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onShareDismissed() {
-
+        if (mShareBottomSheet != null) {
+            mShareBottomSheet.dismiss();
+        }
     }
 
     /**
