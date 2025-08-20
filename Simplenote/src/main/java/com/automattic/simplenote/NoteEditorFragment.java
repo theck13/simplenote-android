@@ -1303,24 +1303,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onSharePublishClicked() {
         publishNote();
-        if (mShareBottomSheet != null) {
-            mShareBottomSheet.dismiss();
-        }
+        dismissBottomSheet(mShareBottomSheet);
     }
 
     @Override
     public void onShareUnpublishClicked() {
         unpublishNote();
-        if (mShareBottomSheet != null) {
-            mShareBottomSheet.dismiss();
-        }
+        dismissBottomSheet(mShareBottomSheet);
     }
 
     @Override
     public void onWordPressPostClicked() {
-        if (mShareBottomSheet != null) {
-            mShareBottomSheet.dismiss();
-        }
+        dismissBottomSheet(mShareBottomSheet);
 
         if (getFragmentManager() == null) {
             return;
@@ -1346,9 +1340,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     @Override
     public void onShareDismissed() {
-        if (mShareBottomSheet != null) {
-            mShareBottomSheet.dismiss();
-        }
+        dismissBottomSheet(mShareBottomSheet);
     }
 
     /**
@@ -1358,28 +1350,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onHistoryCancelClicked() {
         mContentEditText.setText(mNote.getContent());
-        if (mHistoryBottomSheet != null) {
-            mHistoryBottomSheet.dismiss();
-        }
+        dismissBottomSheet(mHistoryBottomSheet);
     }
 
     @Override
     public void onHistoryRestoreClicked() {
-        if (mHistoryBottomSheet != null) {
-            mHistoryBottomSheet.dismiss();
-        }
+        dismissBottomSheet(mHistoryBottomSheet);
         saveAndSyncNote();
     }
 
     @Override
     public void onHistoryDismissed() {
-        if (mHistoryBottomSheet != null) {
-            if (!mHistoryBottomSheet.didTapOnButton()) {
-                mContentEditText.setText(mNote.getContent());
-            }
-
-            mHistoryBottomSheet.dismiss();
+        if (mHistoryBottomSheet != null && !mHistoryBottomSheet.didTapOnButton()) {
+            mContentEditText.setText(mNote.getContent());
         }
+
+        dismissBottomSheet(mHistoryBottomSheet);
 
         if (mHistoryTimeoutHandler != null) {
             mHistoryTimeoutHandler.removeCallbacks(mHistoryTimeoutRunnable);
@@ -1389,6 +1375,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     @Override
     public void onHistoryUpdateNote(String content) {
         mContentEditText.setText(content);
+    }
+
+    private void dismissBottomSheet(BottomSheetDialogBase bottomSheet) {
+        if (bottomSheet != null) {
+            bottomSheet.dismiss();
+        }
     }
 
     private void saveNote() {
