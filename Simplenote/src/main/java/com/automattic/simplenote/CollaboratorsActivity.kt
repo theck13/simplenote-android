@@ -85,7 +85,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun ActivityCollaboratorsBinding.setupViews() {
         setupToolbar()
 
-        collaboratorsList.adapter = CollaboratorsAdapter(viewModel::clickRemoveCollaborator)
+        collaboratorsList.adapter = CollaboratorsAdapter(viewModel::clickRemoveCollaborator, viewModel::longClickRemoveCollaborator)
         collaboratorsList.isNestedScrollingEnabled = false
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
         collaboratorsList.setEmptyView(empty.root)
@@ -134,6 +134,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             when (event) {
                 is Event.AddCollaboratorEvent -> showAddCollaboratorFragment(event)
                 is Event.LongAddCollaboratorEvent -> showLongAddToast()
+                is Event.LongRemoveCollaboratorEvent -> showLongRemoveToast()
                 is Event.RemoveCollaboratorEvent -> showRemoveCollaboratorDialog(event)
                 Event.CloseCollaboratorsEvent -> finish()
             }
@@ -145,6 +146,14 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             buttonAddCollaborator.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
         toast(R.string.add_collaborator)
+    }
+
+    private fun ActivityCollaboratorsBinding.showLongRemoveToast() {
+        if (buttonAddCollaborator.isHapticFeedbackEnabled) {
+            buttonAddCollaborator.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        }
+
+        toast(R.string.remove_collaborator)
     }
 
     private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {

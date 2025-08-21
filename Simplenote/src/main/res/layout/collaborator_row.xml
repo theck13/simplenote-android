@@ -25,7 +25,7 @@
 
     <ImageButton
         android:id="@+id/collaborator_remove_button"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="?attr/actionBarItemBackground"
         android:contentDescription="@string/remove_collaborator"
         android:focusable="false"
         android:focusableInTouchMode="false"

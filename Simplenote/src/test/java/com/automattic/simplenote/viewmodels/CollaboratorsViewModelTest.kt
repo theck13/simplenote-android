@@ -143,6 +143,13 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
+    fun longClickRemoveCollaboratorShouldTriggerLongRemoveCollaboratorEvent() {
+        viewModel.longClickRemoveCollaborator()
+
+        assertEquals(viewModel.event.value, Event.LongRemoveCollaboratorEvent)
+    }
+
+    @Test
     fun closeShouldTriggerCloseCollaborators() {
         viewModel.close()
 
