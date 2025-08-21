@@ -1,2 +1,3 @@
-2.35:
-Kaliforniya'daki kullanıcılar için gizlilik politikası bağlantısı güncellendi
+2.36:
+Android 15'te geliştirilmiş karanlık mod ve tam uçtan uca destek ile notlarınızın her zamankinden daha iyi görünmesini sağlayan daha şık bir Simplenote'un keyfini çıkarın.
+Ayrıca, her şeyin hızlı, sorunsuz ve güvenilir çalışmasını sağlamak için perde arkasında geliştirmeler yaptık.
