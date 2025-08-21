@@ -128,6 +128,13 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
+    fun longClickAddCollaboratorShouldTriggerLongAddCollaboratorEVent() {
+        viewModel.longClickAddCollaborator()
+
+        assertEquals(viewModel.event.value, Event.LongAddCollaboratorEvent)
+    }
+
+    @Test
     fun clickRemoveCollaboratorShouldTriggerEventAddCollaborator() {
         val collaborator = "test@emil.com"
         viewModel.clickRemoveCollaborator(collaborator)

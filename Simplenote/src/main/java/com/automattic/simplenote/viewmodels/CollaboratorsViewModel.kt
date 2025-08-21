@@ -62,6 +62,10 @@ class CollaboratorsViewModel @Inject constructor(
         _event.value = Event.AddCollaboratorEvent(noteId)
     }
 
+    fun longClickAddCollaborator() {
+        _event.postValue(Event.LongAddCollaboratorEvent)
+    }
+
     fun clickRemoveCollaborator(collaborator: String) {
         _event.value = Event.RemoveCollaboratorEvent(collaborator)
     }
@@ -102,6 +106,7 @@ class CollaboratorsViewModel @Inject constructor(
     sealed class Event {
         data class AddCollaboratorEvent(val noteId: String) : Event()
         object CloseCollaboratorsEvent : Event()
+        object LongAddCollaboratorEvent : Event()
         data class RemoveCollaboratorEvent(val collaborator: String) : Event()
     }
 }

@@ -3,6 +3,7 @@ package com.automattic.simplenote
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
+import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -93,6 +94,10 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         buttonAddCollaborator.setOnApplyWindowInsetsListener { view, insets ->
             DisplayUtils.applyWindowInsetsForFloatingActionButton(insets, resources, view)
         }
+        buttonAddCollaborator.setOnLongClickListener {
+            viewModel.longClickAddCollaborator()
+            true
+        }
 
         empty.image.setImageResource(R.drawable.ic_collaborate_24dp)
         empty.title.text = getString(R.string.no_collaborators)
@@ -128,10 +133,18 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         viewModel.event.observe(this@CollaboratorsActivity, { event ->
             when (event) {
                 is Event.AddCollaboratorEvent -> showAddCollaboratorFragment(event)
+                is Event.LongAddCollaboratorEvent -> showLongAddToast()
                 is Event.RemoveCollaboratorEvent -> showRemoveCollaboratorDialog(event)
                 Event.CloseCollaboratorsEvent -> finish()
             }
         })
+    }
+
+    private fun ActivityCollaboratorsBinding.showLongAddToast() {
+        if (buttonAddCollaborator.isHapticFeedbackEnabled) {
+            buttonAddCollaborator.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        }
+        toast(R.string.add_collaborator)
     }
 
     private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
